@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">AdoptmeApp</string>
+    <string name="app_name">AdoptMeApp</string>
+    <string name="btnMoreInfo">More Information</string>
 </resources>

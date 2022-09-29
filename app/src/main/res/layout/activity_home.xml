@@ -8,7 +8,7 @@
 
     <EditText
         android:id="@+id/editTextTextPersonName"
-        android:layout_width="272dp"
+        android:layout_width="231dp"
         android:layout_height="48dp"
         android:layout_marginStart="31dp"
         android:layout_marginTop="79dp"
@@ -22,11 +22,13 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="82dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="69dp"
-        android:layout_marginEnd="15dp"
-        android:text="Button"
+        android:layout_width="109dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
+        android:text="search"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:icon="?android:attr/actionModeWebSearchDrawable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

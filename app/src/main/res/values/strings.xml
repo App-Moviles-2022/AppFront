@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">AdoptMeApp</string>
     <string name="btnMoreInfo">More Information</string>
+    <string name="bienvenido">Bienvenido</string>
+    <string name="iniciar">Iniciar</string>
 </resources>

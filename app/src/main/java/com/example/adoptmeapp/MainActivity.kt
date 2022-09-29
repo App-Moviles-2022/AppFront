@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
     }
-    fun appInitSesion(view: View){
+    fun moveInitSesion(view: View){
         val intent= Intent(this, SignInActivity::class.java).apply {  }
         startActivity(intent)
     }

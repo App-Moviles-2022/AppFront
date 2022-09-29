@@ -1,0 +1,11 @@
+package com.example.adoptmeapp.controllers.activities
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+
+class AdopterProfileActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_adopter_profile)
+    }
+}

@@ -39,22 +39,18 @@ class _MyPetsState extends State<MyPets> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Pets"),),
-      body: ListView.builder(
+    return ListView.builder(
         itemCount: pets.isEmpty ? 0 : pets.length,
         itemBuilder: (BuildContext context, i){
-        return Card(child: ListTile(
-          title: Text(pets[i]['name'] ?? ""),
-          subtitle: Text(  pets[i]['bred_for'] ?? "" ),
-          leading: CircleAvatar(backgroundImage: NetworkImage(pets[i]['image']['url'] ?? defaultPet),),
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PetDetails(pets[i])));
-          },
-        ),);
-      }),
-    );
+          return Card(child: ListTile(
+            title: Text(pets[i]['name'] ?? ""),
+            subtitle: Text(  pets[i]['bred_for'] ?? "" ),
+            leading: CircleAvatar(backgroundImage: NetworkImage(pets[i]['image']['url'] ?? defaultPet),),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PetDetails(pets[i])));
+            },
+          ),);
+        });
   }
 
 }

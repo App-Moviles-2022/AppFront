@@ -6,12 +6,12 @@ class PerfilUsuario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Profile Challenge 01',
+      title: 'Perfil de Usuario',
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
           title: Center(
-            child: const Text('Profile Challenge 01'),
+            child: const Text('Perfil de usuario'),
           ),
         ),
         body: ListView(
@@ -72,7 +72,7 @@ class PerfilUsuario extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Flutter Developer',
+                    'Ingeniebrio de Software',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -148,7 +148,7 @@ class PerfilUsuario extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      'palmeiro.leonardo@gmail.com',
+                      'ricardoyalico@gmail.com',
                       style: TextStyle(
                         fontSize: 18,
                       ),

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.adoptme_app">
+    package="com.example.appfront">
    <application
-        android:label="adoptme_app"
+        android:label="appfront"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

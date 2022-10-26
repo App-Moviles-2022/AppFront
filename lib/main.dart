@@ -1,3 +1,4 @@
+import 'package:appfront/modulos/gestion-usuario/announcements.dart';
 import 'package:appfront/modulos/gestion-usuario/my_pets.dart';
 import 'package:appfront/modulos/gestion-usuario/perfil-usuario.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _AdoptmeStullState extends State<AdoptmeStull> {
   static const List<Widget> _widgetOptions = <Widget>[
     PerfilUsuario(),
     MyPets(),
-    PerfilUsuario(),
+    Announcements(),
     MyPets(),
   ];
 

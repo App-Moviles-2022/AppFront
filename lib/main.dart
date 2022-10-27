@@ -1,5 +1,5 @@
 import 'package:appfront/modulos/gestion-usuario/announcements.dart';
-import 'package:appfront/modulos/gestion-usuario/my_pets.dart';
+import 'package:appfront/modulos/gestion-pet/my_pets.dart';
 import 'package:appfront/modulos/gestion-usuario/perfil-usuario.dart';
 import 'package:flutter/material.dart';
 

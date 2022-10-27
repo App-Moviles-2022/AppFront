@@ -57,26 +57,76 @@ class _AnnouncementsState extends State<Announcements> {
   }
 
   Widget buildRow(Announcement announcement) {
-    final bool alreadyView = saved.contains(announcement);
-    return ListTile(
-      title: Text(
-        announcement.title,
-        style: biggerFont,
-      ),
-      subtitle: Text(
-        announcement.description
-      )
-      ,
-      trailing: Icon(
-        alreadyView ? Icons.read_more: Icons.read_more_outlined,
-        color: alreadyView ? Colors.red : null,
-      ),
-      onTap: (){
-        setState(() {
-          alreadyView ? saved.remove(announcement) : saved.add(announcement);
-        });
-      },
-    );
+    return Card(
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(children: [
+            Stack(
+              children: [
+                Ink.image(image: NetworkImage(
+                    'https://image.cnbcfm.com/api/v1/image/106686172-1598966433320-gettyimages-1152439648-istockalypse-home-office-00062.jpeg?v=1599013160'
+                ),
+                  height: 300,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                    bottom: 16,
+                    right: 16,
+                    left: 16,
+                    child: Text(announcement.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                        fontSize: 24,
+                      ),
+                    )
+                )
 
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.all(16).copyWith(bottom: 0),
+              child: Text(announcement.description,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.start,
+              children: [
+                FloatingActionButton.large(
+                    child: Text(
+                      'Adopt pet',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                    backgroundColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+                    onPressed: (){}
+                ),
+                FloatingActionButton.large(
+                    child: Text(
+                      'More information',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 10),
+                    ),
+                    backgroundColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                    ),
+                    onPressed: (){}
+                )
+              ],
+            )
+
+          ],)
+
+        );
   }
 }

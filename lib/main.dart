@@ -1,3 +1,5 @@
+import 'package:appfront/modulos/gestion-notificaciones/list-notifications.dart';
+import 'package:appfront/modulos/gestion-publicaciones/list-publications.dart';
 import 'package:appfront/modulos/gestion-usuario/announcements.dart';
 import 'package:appfront/modulos/gestion-usuario/my_pets.dart';
 import 'package:appfront/modulos/gestion-usuario/perfil-usuario.dart';
@@ -17,7 +19,7 @@ class AdoptmeStless extends StatelessWidget {
       theme: ThemeData(
           primarySwatch:Colors.indigo
       ),
-      home: AdoptmeStull(),
+      home: const AdoptmeStull(),
     );
   }
 }
@@ -45,7 +47,7 @@ class _AdoptmeStullState extends State<AdoptmeStull> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     PerfilUsuario(),
-    MyPets(),
+    ListPublications(),
     Announcements(),
     MyPets(),
   ];
@@ -54,9 +56,9 @@ class _AdoptmeStullState extends State<AdoptmeStull> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter App"),
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Flutter App"),
+      // ),
       body: _widgetOptions.elementAt(_selectedIndex),
       // ListView(
       //   children: <Widget>[

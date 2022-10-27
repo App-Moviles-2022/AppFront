@@ -94,8 +94,9 @@ class _AnnouncementsState extends State<Announcements> {
             ),
             ButtonBar(
               alignment: MainAxisAlignment.start,
+              buttonPadding: EdgeInsets.all(16).copyWith(bottom: 5),
               children: [
-                FloatingActionButton.large(
+                ElevatedButton(
                     child: Text(
                       'Adopt pet',
                       textAlign: TextAlign.center,
@@ -103,22 +104,14 @@ class _AnnouncementsState extends State<Announcements> {
                         fontSize: 10,
                       ),
                     ),
-                    backgroundColor: Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                    ),
                     onPressed: (){}
                 ),
-                FloatingActionButton.large(
+                ElevatedButton(
                     child: Text(
                       'More information',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 10),
-                    ),
-                    backgroundColor: Colors.grey,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)
                     ),
                     onPressed: (){}
                 )

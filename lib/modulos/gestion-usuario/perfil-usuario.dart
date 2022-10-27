@@ -11,7 +11,7 @@ class PerfilUsuario extends StatelessWidget {
           height: 250,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.red, Colors.deepOrange.shade300],
+              colors: [Colors.indigo, Colors.indigo.shade300],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               stops: [0.5, 0.9],
@@ -25,7 +25,7 @@ class PerfilUsuario extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundColor: Colors.red.shade300,
+                    backgroundColor: Colors.indigo.shade300,
                     minRadius: 35.0,
                     child: Icon(
                       Icons.call,
@@ -42,7 +42,7 @@ class PerfilUsuario extends StatelessWidget {
                     ),
                   ),
                   CircleAvatar(
-                    backgroundColor: Colors.red.shade300,
+                    backgroundColor: Colors.indigo,
                     minRadius: 35.0,
                     child: Icon(
                       Icons.message,
@@ -77,7 +77,7 @@ class PerfilUsuario extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Container(
-                  color: Colors.deepOrange.shade300,
+                  color: Colors.indigo.shade300,
                   child: ListTile(
                     title: Text(
                       '165',
@@ -101,7 +101,7 @@ class PerfilUsuario extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  color: Colors.red,
+                  color: Colors.indigo,
                   child: ListTile(
                     title: Text(
                       '2',
@@ -133,7 +133,7 @@ class PerfilUsuario extends StatelessWidget {
                 title: Text(
                   'Email',
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.indigo,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -150,7 +150,7 @@ class PerfilUsuario extends StatelessWidget {
                 title: Text(
                   'Teléfono',
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.indigo,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -167,7 +167,7 @@ class PerfilUsuario extends StatelessWidget {
                 title: Text(
                   'Dirección',
                   style: TextStyle(
-                    color: Colors.deepOrange,
+                    color: Colors.indigo,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

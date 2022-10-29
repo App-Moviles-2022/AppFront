@@ -51,6 +51,10 @@ dependencies:
   path_provider: ^2.0.0
   rflutter_alert: ^1.0.3
 dev_dependencies:
+  image_picker: ^0.8.4
+  validation_textformfield: '^1.0.0'
+  expansion_card: '^0.1.0'
+  email_validator: '^1.0.0'
   flutter_test:
     sdk: flutter
   drift_dev: ^2.2.0+1

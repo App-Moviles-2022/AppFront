@@ -11,15 +11,18 @@ class CardPublication extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            color: publication.color,
-            child: Image.asset(publication.image),
+            child: Ink.image(
+                image: NetworkImage(publication.image),
+              height: 200,
+              fit: BoxFit.cover,
+            ),
           ),
-          padding(Text(publication.title, style: const TextStyle(fontSize: 18.0,
+          padding(Text(publication.name, style: const TextStyle(fontSize: 18.0,
               fontFamily: "Roboto", fontWeight: FontWeight.bold, color: Colors.white),)),
           Row(
             children: <Widget>[
               padding(const Icon(Icons.pets, color: Colors.white70,)),
-              padding(Text(publication.message, style: const TextStyle(fontSize: 16.0,
+              padding(Text(publication.type, style: const TextStyle(fontSize: 16.0,
                   fontFamily: "Roboto", fontWeight: FontWeight.normal, color: Colors.white),))
             ],
           ),

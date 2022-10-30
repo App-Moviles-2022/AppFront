@@ -14,14 +14,30 @@ class ListPublications extends StatefulWidget {
 
 
 class _ListPublicationsState extends State<ListPublications> {
+  late http.Response temp;
+  // List<Publication> publications = [
+  //   Publication("Pedrito es un gran amigo", "https://image.cnbcfm.com/api/v1/image/106686172-1598966433320-gettyimages-1152439648-istockalypse-home-office-00062.jpeg?v=1599013160",
+  //       DateTime(2022, 1, 1, 24, 0, 0), Colors.white60,
+  //       "Pedrito", "Subtitle demo"
+  //   ),
+  //   Publication("A Loqui le encanta jugar", "https://image.cnbcfm.com/api/v1/image/106686172-1598966433320-gettyimages-1152439648-istockalypse-home-office-00062.jpeg?v=1599013160",
+  //       DateTime(2022, 1, 1, 24, 0, 0), Colors.white60,
+  //       "Loqui", "Subtitle demo"
+  //   ),
+  //   Publication("Siempre te recibirá con una sonrisa", "https://image.cnbcfm.com/api/v1/image/106686172-1598966433320-gettyimages-1152439648-istockalypse-home-office-00062.jpeg?v=1599013160",
+  //       DateTime(2022, 1, 1, 24, 0, 0), Colors.white60,
+  //       "Duno", "Subtitle demo"
+  //   )
+  // ];
+  List<Publication> publications = [];
 
 
-  Future<http.Response> getReservas() async{
-    final response = await http.get(Uri.parse("https://676g5lt3y5.execute-api.us-east-1.amazonaws.com/dev/obtener-reservas-cliente?id_persona=4"));
-    setState(() {
-      String body = utf8.decode(response.bodyBytes);
-      print(jsonDecode(body)[0]['id_reserva']);
-    });
+  Future<http.Response> getPets() async{
+    final response = await http.get(Uri.parse("https://timarq.xempre.com/api/v1/pets"));
+    // setState(() {
+    //   String body = utf8.decode(response.bodyBytes);
+    //   print(jsonDecode(body)[0]['id']);
+    // });
 
     return response;
   }
@@ -29,23 +45,17 @@ class _ListPublicationsState extends State<ListPublications> {
   @override
   void initState(){
     super.initState();
-    getReservas();
+    getPets().then((value) => {
+      setState(() {
+      String body = utf8.decode(value.bodyBytes);
+      for(var element in jsonDecode(body)){
+        publications.add(Publication(element['type'], element['urlToImage'], element['name']));
+      }
+      }),
+
+    });
   }
 
-  List<Publication> publications = [
-    Publication("Pedrito es un gran amigo", "https://image.cnbcfm.com/api/v1/image/106686172-1598966433320-gettyimages-1152439648-istockalypse-home-office-00062.jpeg?v=1599013160",
-        DateTime(2022, 1, 1, 24, 0, 0), Colors.white60,
-        "Pedrito", "Subtitle demo"
-    ),
-    Publication("A Loqui le encanta jugar", "https://image.cnbcfm.com/api/v1/image/106686172-1598966433320-gettyimages-1152439648-istockalypse-home-office-00062.jpeg?v=1599013160",
-        DateTime(2022, 1, 1, 24, 0, 0), Colors.white60,
-        "Loqui", "Subtitle demo"
-    ),
-    Publication("Siempre te recibirá con una sonrisa", "https://image.cnbcfm.com/api/v1/image/106686172-1598966433320-gettyimages-1152439648-istockalypse-home-office-00062.jpeg?v=1599013160",
-        DateTime(2022, 1, 1, 24, 0, 0), Colors.white60,
-        "Duno", "Subtitle demo"
-    )
-  ];
   @override
   Widget build(BuildContext context) {
     DBHelper helper = DBHelper();

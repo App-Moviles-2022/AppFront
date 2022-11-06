@@ -1,22 +1,118 @@
+import 'dart:convert';
+
+import 'package:appfront/modulos/gestion-pet/models/pet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 class AddPet extends StatefulWidget {
-  const AddPet({Key? key}) : super(key: key);
 
+  Pet pet = Pet.empty();
+  AddPet(this.pet);
   @override
-  State<AddPet> createState() => _AddPetState();
+  State<AddPet> createState() => _AddPetState(this.pet);
 }
 
 class _AddPetState extends State<AddPet> {
-  final _urlToImageController = TextEditingController();
+  // final _urlToImageController = TextEditingController();
 
+  Pet pet = Pet.empty();
+  _AddPetState(this.pet);
+
+  static int userId = 5;
   double v_padding = 20;
+  bool isEdit = false;
+
+  final typeController = TextEditingController();
+  final nameController = TextEditingController();
+  final ageController = TextEditingController();
+  final raceController = TextEditingController();
+  final genderController = TextEditingController();
+  final attentionController = TextEditingController();
+  final urlToImageController = TextEditingController();
+
+
+
+  Future<String> saveRequest() async {
+    String url = "https://timexp.xempre.com/api/v1/pets";
+    final data = jsonEncode(<String, dynamic>{
+      'type': typeController.text,
+      'name': nameController.text,
+      'attention': attentionController.text,
+      'age': int.parse(ageController.text),
+      'race': raceController.text,
+      'userId': userId,
+      'publicationId': null,
+      'gender': genderController.text,
+      'urlToImage': urlToImageController.text,
+      'isAdopted': false,
+      'isPublished': false
+    });
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-type': 'application/json'},
+      body: data,
+      encoding: Encoding.getByName("utf-8")
+    );
+    setState(() {
+    });
+    return response.body;
+  }
+
+  Future<String> updateRequest() async {
+    String url = "https://timexp.xempre.com/api/v1/pets/${pet.id}";
+    final data = jsonEncode(<String, dynamic>{
+      'type': typeController.text,
+      'name': nameController.text,
+      'attention': attentionController.text,
+      'age': int.parse(ageController.text),
+      'race': raceController.text,
+      'userId': userId,
+      'publicationId': null,
+      'gender': genderController.text,
+      'urlToImage': urlToImageController.text,
+      'isAdopted': false,
+      'isPublished': false
+    });
+    final response = await http.put(
+        Uri.parse(url),
+        headers: {'Content-type': 'application/json'},
+        body: data,
+        encoding: Encoding.getByName("utf-8")
+    );
+    setState(() {
+    });
+    return response.body;
+  }
+
+
+  @override
+  void initState(){
+    super.initState();
+    if(pet.id != null){
+      isEdit = true;
+      typeController.text = pet.type.toString();
+      nameController.text = pet.name.toString();
+      attentionController.text = pet.attention.toString();
+      ageController.text = pet.age.toString();
+      raceController.text = pet.race.toString();
+      genderController.text = pet.gender.toString();
+      urlToImageController.text = pet.urlToImage.toString();
+    }
+
+
+  }
 
   @override
   void dispose(){
-    _urlToImageController.dispose();
+    typeController.dispose();
+    nameController.dispose();
+    attentionController.dispose();
+    ageController.dispose();
+    raceController.dispose();
+    genderController.dispose();
+    urlToImageController.dispose();
     super.dispose();
   }
 
@@ -38,46 +134,68 @@ class _AddPetState extends State<AddPet> {
         Column(
           children: [
             SizedBox(height: v_padding,),
-            const Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                controller: typeController,
                 decoration: InputDecoration(
                   hintText: "Type",
                   filled: true,
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            const Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   hintText: "Name",
                   filled: true,
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            const Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                keyboardType: TextInputType.number,
+                controller: ageController,
                 decoration: InputDecoration(
                   hintText: "Age",
                   filled: true,
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            const Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                controller: raceController,
+                decoration: InputDecoration(
+                  hintText: "Race",
+                  filled: true,
+                ),
+              ),),),
+            SizedBox(height: v_padding,),
+            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+              child: TextField(
+                controller: genderController,
+                decoration: InputDecoration(
+                  hintText: "Gender",
+                  filled: true,
+                ),
+              ),),),
+            SizedBox(height: v_padding,),
+            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+              child: TextField(
+                controller: attentionController,
                 decoration: InputDecoration(
                   hintText: "Attention",
                   filled: true,
                 ),
               ),),),
-
             SizedBox(height: v_padding,),
 
             Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 onChanged: (text){setState(() {
-                  _urlToImageController.text;
+                  urlToImageController.text;
                 });},
-                controller: _urlToImageController,
+                controller: urlToImageController,
                 decoration: const InputDecoration(
                   hintText: "Image Url",
                   filled: true,
@@ -87,10 +205,10 @@ class _AddPetState extends State<AddPet> {
             Container(
 
               child: CachedNetworkImage(
-                imageUrl: _urlToImageController.text,
+                imageUrl: urlToImageController.text,
                 imageBuilder: (context, imageProvider) => Container(
-                    width: _urlToImageController.text == "" ? 0 : 250,
-                    height: _urlToImageController.text == "" ? 0 : 250,
+                    width: urlToImageController.text == "" ? 0 : 250,
+                    height: urlToImageController.text == "" ? 0 : 250,
                     decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: const BorderRadius.all(Radius.circular(125)),
@@ -112,7 +230,16 @@ class _AddPetState extends State<AddPet> {
             ),
             SizedBox(height: v_padding,),
             ElevatedButton(onPressed: (){
-              Fluttertoast.showToast(msg: "Pet added successful.");
+
+              !isEdit ? saveRequest() : updateRequest();
+
+              // if (response() == null){
+              //   Fluttertoast.showToast(msg: "Error, ");
+              // } else {
+                Fluttertoast.showToast(msg: "Pet added successful.");
+                Navigator.pop(context);
+              // }
+
             }, child: Text("Save", style: TextStyle(fontSize: 20),))
 
           ],

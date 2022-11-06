@@ -1,8 +1,12 @@
 
 
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:appfront/modulos/gestion-usuario/models/announcement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Announcements extends StatefulWidget{
   const Announcements({Key? key}) : super(key: key);
@@ -18,7 +22,40 @@ class _AnnouncementsState extends State<Announcements> {
   final Set<Announcement> saved= Set<Announcement>();
 
 
+  /////////////////////////////////
 
+  final List<Announcement> dataAnounsment=[];
+  Future<http.Response> getadds() async{
+    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/advertisements"));
+    // setState(() {
+    //   String body = utf8.decode(response.bodyBytes);
+    //   print(jsonDecode(body)[0]['id']);
+    // });
+    return response;
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getadds().then((value) => {
+      setState(() {
+        String body = utf8.decode(value.bodyBytes);
+        for(var element in jsonDecode(body)){
+          print(element['title']);
+          dataAnounsment.add(Announcement(
+            dateTime: element['dateTime'],
+              description: element['description'],
+              promoted: element['promoted'],
+              title: element['title'],
+              urlToImage: element['urlToImage'],
+          ));
+        }
+      }),
+
+    });
+  }
+
+  /////////////////////////////
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -34,22 +71,13 @@ class _AnnouncementsState extends State<Announcements> {
     return ListView.builder(
       padding: EdgeInsets.all(15),
       itemBuilder: (BuildContext context, int i) {
-        if (i.isOdd) {
-          return Divider();
-        }
-        final int index=i ~/ 2;
-
-
-        Announcement item1 = Announcement(dateTime: "martes",
-            description: "aa",
-            promoted: true,
-            title: "nuevo anuncio"+"${i}",
-            urlToImage: "adaiaduiaia");
-
+        print(i);
+        Announcement item1 = dataAnounsment[i];
         announcements.add(item1);
-
-        return buildRow(announcements[index]);
-      });
+        return buildRow(announcements[i]);
+      },
+      itemCount: dataAnounsment.length,
+    );
   }
 
 
@@ -66,7 +94,7 @@ class _AnnouncementsState extends State<Announcements> {
             Stack(
               children: [
                 Ink.image(image: NetworkImage(
-                    'https://image.cnbcfm.com/api/v1/image/106686172-1598966433320-gettyimages-1152439648-istockalypse-home-office-00062.jpeg?v=1599013160'
+                    announcement.urlToImage
                 ),
                   height: 300,
                   fit: BoxFit.cover,

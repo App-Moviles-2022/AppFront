@@ -5,6 +5,8 @@ class Publication {
   String name;
   String image;
 
-  Publication(this.type, this.image, this.name);
+  String comment;
+
+  Publication(this.type, this.image, this.name, this.comment);
 
 }

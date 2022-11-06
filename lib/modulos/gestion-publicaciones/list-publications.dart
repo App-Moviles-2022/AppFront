@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:appfront/database/db_helper.dart';
 import 'package:appfront/modulos/gestion-publicaciones/custom-widgets/publication-card.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +35,20 @@ class _ListPublicationsState extends State<ListPublications> {
 
   Future<http.Response> getPets() async{
     final response = await http.get(Uri.parse("https://timarq.xempre.com/api/v1/pets"));
-    // setState(() {
-    //   String body = utf8.decode(response.bodyBytes);
-    //   print(jsonDecode(body)[0]['id']);
-    // });
+    final newUser = await http.post(Uri.parse("https://timexp.xempre.com/api/v1/users/auth/sign-in"),
+      headers: <String, String>{
+      'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'userNick': "string",
+        'Pass': "string",
+      }),
+      encoding: utf8
+    );
+    setState(() {
+      String body = utf8.decode(newUser.bodyBytes);
+      print(jsonDecode(body));
+    });
 
     return response;
   }

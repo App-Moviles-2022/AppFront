@@ -1,12 +1,34 @@
 class Pet {
-  final String imagePath;
-  final String name;
-  final String about;
-  final bool type = false;
+   int? id;
+   String? type;
+   String? name;
+   String? attention;
+   int? age;
+   String? race;
+   bool? isAdopted = false;
+   int? userId;
+   int? publicationId;
+   bool? isPublished = false;
+   String? gender;
+   String? urlToImage;
 
-  const Pet({
-    required this.imagePath,
-    required this.name,
-    required this.about,
-  });
+  Pet.empty();
+  Pet(this.id,this.type, this.name, this.attention, this.age, this.race, this.userId, this.publicationId, this.gender, this.urlToImage);
+
+  factory Pet.fromJson(Map<String, dynamic> json){
+    return Pet(
+      json['id'],
+      json['type'],
+      json['name'],
+      json['attention'],
+      json['age'],
+      json['race'],
+      json['userId'],
+      json['publicationId'],
+      json['gender'],
+      json['urlToImage']
+    );
+  }
+
 }
+

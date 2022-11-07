@@ -41,6 +41,10 @@ dependencies:
   cached_network_image: ^3.2.2
   sqflite: ^2.1.0+1
   path: ^1.8.2
+  provider: ^4.3.1
+  get: ^4.6.5
+  dio: ^4.0.6
+  flutter_secure_storage: ^5.0.2
 
 dev_dependencies:
   flutter_test:

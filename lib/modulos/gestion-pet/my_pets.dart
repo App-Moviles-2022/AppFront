@@ -3,6 +3,7 @@
 import 'package:appfront/modulos/gestion-pet/add_pet.dart';
 import 'package:appfront/modulos/gestion-pet/models/pet.dart';
 import 'package:appfront/modulos/gestion-pet/pet_details.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -22,8 +23,15 @@ class _MyPetsState extends State<MyPets>{
   List<Pet> pets = [];
   List<bool> imageValidator = [];
 
+
+
+// Try reading data from the counter key. If it doesn't exist, return 0.
+
+
   Future<String> getMyPetsRequest() async {
-    String url = "https://timexp.xempre.com/api/v1/pets/userid=5";
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+    String url = "https://timexp.xempre.com/api/v1/pets/userid=$userId";
     final response = await http.get(
         Uri.parse(url),
         // headers: {'x-api-key': apiKey}

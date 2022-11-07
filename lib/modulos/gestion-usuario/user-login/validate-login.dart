@@ -223,6 +223,7 @@ class UserPreferences {
   }
 }*/
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class Modelo {
@@ -238,10 +239,16 @@ class Modelo {
         }),
         encoding: utf8
     );
-    String body = utf8.decode(response.bodyBytes);
-    print(jsonDecode(body));
-    print(response.statusCode);
+    var body = json.decode(response.body);
+    print(body);
+    // print(jsonDecode(body));
+    // print(response.statusCode);
     if (response.statusCode == 200) {
+  // obtain shared preferences
+        final prefs = await SharedPreferences.getInstance();
+
+  // set value
+        await prefs.setInt('userId', body['id']);
       return true;
     }
     else{

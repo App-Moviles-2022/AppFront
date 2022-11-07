@@ -4,6 +4,7 @@ import 'package:appfront/modulos/gestion-pet/models/pet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class AddPet extends StatefulWidget {
@@ -20,7 +21,6 @@ class _AddPetState extends State<AddPet> {
   Pet pet = Pet.empty();
   _AddPetState(this.pet);
 
-  static int userId = 5;
   double v_padding = 20;
   bool isEdit = false;
 
@@ -35,6 +35,9 @@ class _AddPetState extends State<AddPet> {
 
 
   Future<String> saveRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+
     String url = "https://timexp.xempre.com/api/v1/pets";
     final data = jsonEncode(<String, dynamic>{
       'type': typeController.text,
@@ -61,6 +64,9 @@ class _AddPetState extends State<AddPet> {
   }
 
   Future<String> updateRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+
     String url = "https://timexp.xempre.com/api/v1/pets/${pet.id}";
     final data = jsonEncode(<String, dynamic>{
       'type': typeController.text,

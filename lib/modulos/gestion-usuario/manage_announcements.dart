@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'package:appfront/modulos/gestion-usuario/models/announcement.dart';
 import 'package:appfront/modulos/gestion-usuario/ui/announcement_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../gestion-announcements/models/announcement.dart';
 
 
 

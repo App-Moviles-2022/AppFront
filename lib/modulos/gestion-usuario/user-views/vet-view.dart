@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:appfront/modulos/gestion-announcements/announcements.dart';
+import 'package:appfront/modulos/gestion-notificaciones/announcements.dart';
 import 'package:appfront/modulos/gestion-usuario/perfil-usuario.dart';
 import 'package:appfront/modulos/gestion-publicaciones/list-publications.dart';
 import 'package:appfront/modulos/gestion-pet/my_pets.dart';

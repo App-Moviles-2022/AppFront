@@ -1,8 +1,8 @@
 
 
 import 'dart:convert';
-import 'dart:ffi';
 
+import 'package:appfront/modulos/gestion-usuario/manage_announcements.dart';
 import 'package:appfront/modulos/gestion-usuario/models/announcement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +43,8 @@ class _AnnouncementsState extends State<Announcements> {
         for(var element in jsonDecode(body)){
           print(element['title']);
           dataAnounsment.add(Announcement(
+            id: element['id'],
+            discount: element['discount'],
             dateTime: element['dateTime'],
               description: element['description'],
               promoted: element['promoted'],
@@ -60,8 +62,10 @@ class _AnnouncementsState extends State<Announcements> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text("Annuncios"),
-        actions: <Widget>[IconButton(onPressed: pushSaved, icon: Icon(Icons.book))],
+        title: Text("Anuncios"),
+        actions: <Widget>[
+          IconButton(onPressed: goToManage, icon: Icon(Icons.edit_note)),
+        ],
       ),
       body: buildAnnouncements(),
 
@@ -81,8 +85,10 @@ class _AnnouncementsState extends State<Announcements> {
   }
 
 
-  void pushSaved() {
+  void goToManage() {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> Manage_Announcements()));
   }
+  void pushEdit(){}
 
   Widget buildRow(Announcement announcement) {
     return Card(

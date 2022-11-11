@@ -31,9 +31,9 @@ class _ListPublicationsState extends State<ListPublications> {
       for(var element in jsonDecode(body)){
         publications.add(
             Publication(
-                'Can',
-                'http://c.files.bbci.co.uk/48DD/production/_107435681_perro1.jpg',
-                'Name',
+                element['type'],
+                element['image'],
+                element['name'],
                 element['comment']
             )
         );

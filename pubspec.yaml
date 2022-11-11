@@ -46,11 +46,15 @@ dependencies:
   dio: ^4.0.6
   flutter_secure_storage: ^5.0.2
   shared_preferences: ^2.0.15
+  drift: ^2.2.0
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  drift_dev: ^2.2.0+1
+  build_runner: ^2.2.1
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

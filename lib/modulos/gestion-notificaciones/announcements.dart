@@ -3,10 +3,11 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-import 'package:appfront/modulos/gestion-usuario/models/announcement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../gestion-announcements/models/announcement.dart';
 
 class Announcements extends StatefulWidget{
   const Announcements({Key? key}) : super(key: key);

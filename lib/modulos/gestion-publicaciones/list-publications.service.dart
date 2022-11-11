@@ -4,13 +4,12 @@ import 'package:http/http.dart' as http;
 
 class ListPublicationsService{
   Future<http.Response> getAllPets() async{
-    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/publications"));
-
+    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/publications/petsinfo"));
     return response;
   }
 
   Future<http.Response> getPublicationsByUserId(id) async{
-    final response = await http.get(Uri.parse('https://timexp.xempre.com/api/v1/pets/userid=$id'));
+    final response = await http.get(Uri.parse('https://timexp.xempre.com/api/v1/publications/petsinfo/$id'));
     return response;
   }
 

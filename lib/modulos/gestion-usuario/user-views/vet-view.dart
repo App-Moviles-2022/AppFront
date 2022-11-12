@@ -24,7 +24,7 @@ class _VetViewState extends State<VetView> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     PerfilUsuario(),
     ListPublications(),
     Announcements(),

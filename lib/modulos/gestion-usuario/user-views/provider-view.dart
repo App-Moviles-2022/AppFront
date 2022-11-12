@@ -24,7 +24,7 @@ class _ProviderViewState extends State<ProviderView> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     PerfilUsuario(),
     ListPublications(),
     Announcements(),

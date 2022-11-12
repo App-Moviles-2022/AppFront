@@ -222,6 +222,7 @@ class UserPreferences {
     return token;
   }
 }*/
+import 'package:appfront/modulos/gestion-usuario/models/client.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -246,9 +247,16 @@ class Modelo {
     if (response.statusCode == 200) {
   // obtain shared preferences
         final prefs = await SharedPreferences.getInstance();
-
   // set value
         await prefs.setInt('userId', body['id']);
+
+        // User user = User.fromJson(body);
+        // print("PERRRRRRO");
+        // print(user);
+
+        await prefs.setString('user', jsonEncode(body));
+
+
       return true;
     }
     else{

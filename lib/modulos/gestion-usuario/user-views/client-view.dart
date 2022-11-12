@@ -24,7 +24,7 @@ class _ClientViewState extends State<ClientView> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     PerfilUsuario(),
     ListPublications(),
     Announcements(),

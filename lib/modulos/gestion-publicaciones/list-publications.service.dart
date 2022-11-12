@@ -25,4 +25,29 @@ class ListPublicationsService{
     // print(jsonDecode(body));
     return response;
   }
+
+  Future<http.Response> deletePublication(id) async{
+    final response = await http.delete(Uri.parse("https://timexp.xempre.com/api/v1/publications/$id"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+    );
+    // String body = utf8.decode(response.bodyBytes);
+    // print(jsonDecode(body));
+    return response;
+  }
+
+  Future<http.Response> updatePublication(petId, data) async{
+    final response = await http.put(Uri.parse("https://timexp.xempre.com/api/v1/pets/$petId"),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(data),
+      encoding: utf8
+    );
+    // String body = utf8.decode(response.bodyBytes);
+    // print(jsonDecode(body));
+    return response;
+  }
+
 }

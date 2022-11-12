@@ -1,11 +1,16 @@
 import 'package:appfront/modulos/gestion-publicaciones/models/publication.dart';
 import 'package:flutter/material.dart';
 
+import '../list-publications.service.dart';
+
 class CardPublication extends StatelessWidget {
   Publication publication;
+  late ListPublicationsService listPublicationsService = ListPublicationsService();
+
   CardPublication(this.publication, {super.key});
   @override
   Widget build(BuildContext context) {
+
     return Card(
       color: Colors.indigo,
       child: Column(
@@ -21,9 +26,21 @@ class CardPublication extends StatelessWidget {
               fontFamily: "Roboto", fontWeight: FontWeight.bold, color: Colors.white),)),
           Row(
             children: <Widget>[
-              padding(const Icon(Icons.pets, color: Colors.white70,)),
-              padding(Text(publication.type, style: const TextStyle(fontSize: 16.0,
-                  fontFamily: "Roboto", fontWeight: FontWeight.normal, color: Colors.white),))
+              // padding(const Icon(Icons.pets, color: Colors.white70,)),
+              // padding(Text(publication.type, style: const TextStyle(fontSize: 16.0,
+              //     fontFamily: "Roboto", fontWeight: FontWeight.normal, color: Colors.white),)),
+              padding(ElevatedButton.icon(
+                icon: Icon(Icons.edit),
+                onPressed: (){
+                }, label: Text('Editar'),
+              ),),
+              padding(ElevatedButton.icon(
+                icon: Icon(Icons.delete),
+                onPressed: (){
+                  listPublicationsService.deletePublication(publication.publicationId).then((value) => {
+                  });
+                }, label: Text('Eliminar'),
+              ),),
             ],
           ),
         ],

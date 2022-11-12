@@ -5,8 +5,10 @@ import 'package:appfront/modulos/gestion-publicaciones/custom-widgets/publicatio
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'list-publications.service.dart';
 import 'models/publication.dart';
+import 'package:intl/intl.dart';
 
 class ListPublications extends StatefulWidget {
   const ListPublications({Key? key}) : super(key: key);
@@ -34,6 +36,7 @@ class _ListPublicationsState extends State<ListPublications> {
         publications.add(
             Publication(
                 element['publicationId'],
+                element['userId'],
                 element['petId'],
                 element['type'],
                 element['image'],
@@ -72,58 +75,65 @@ class _ListPublicationsState extends State<ListPublications> {
                   itemCount: publications.length,
                   itemBuilder: (BuildContext context, int index) {
 
-                    // return CardPublication(publications[index]);
-                    return Card(
-                      color: Colors.indigo,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            child: Ink.image(
-                              image: NetworkImage(publications[index].image),
-                              height: 200,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          padding(Text(publications[index].name, style: const TextStyle(fontSize: 18.0,
-                              fontFamily: "Roboto", fontWeight: FontWeight.bold, color: Colors.white),)),
-                          Row(
-                            children: <Widget>[
-                              // padding(const Icon(Icons.pets, color: Colors.white70,)),
-                              // padding(Text(publication.type, style: const TextStyle(fontSize: 16.0,
-                              //     fontFamily: "Roboto", fontWeight: FontWeight.normal, color: Colors.white),)),
-                              padding(ElevatedButton.icon(
-                                icon: Icon(Icons.edit),
-                                onPressed: (){
-                                  _openPopup(context, publications[index]);
-                                }, label: Text('Editar'),
-                              ),),
-                              padding(ElevatedButton.icon(
-                                icon: Icon(Icons.delete),
-                                onPressed: (){
-                                  listPublicationsService.deletePublication(publications[index].publicationId).then((value) => {
-                                    publications.remove(publications[index]),
-                                    setState(() {
-                                      publications = publications;
-                                    })
-                                  });
-                                }, label: Text('Eliminar'),
-                              ),),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-              ),
-              ListView.builder(
-                  itemCount: publications.length,
-                  itemBuilder: (BuildContext context, int index) {
-
                     return CardPublication(publications[index]);
                   },
               ),
+              ListView.builder(
+                itemCount: publications.length,
+                itemBuilder: (BuildContext context, int index) {
+
+                  // return CardPublication(publications[index]);
+                  return Card(
+                    color: Colors.indigo,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Ink.image(
+                            image: NetworkImage(publications[index].image),
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        padding(Text(publications[index].name, style: const TextStyle(fontSize: 18.0,
+                            fontFamily: "Roboto", fontWeight: FontWeight.bold, color: Colors.white),)),
+                        Row(
+                          children: <Widget>[
+                            // padding(const Icon(Icons.pets, color: Colors.white70,)),
+                            // padding(Text(publication.type, style: const TextStyle(fontSize: 16.0,
+                            //     fontFamily: "Roboto", fontWeight: FontWeight.normal, color: Colors.white),)),
+                            padding(ElevatedButton.icon(
+                              icon: Icon(Icons.edit),
+                              onPressed: (){
+                                _openPopup(context, publications[index], index);
+                              }, label: Text('Editar'),
+                            ),),
+                            padding(ElevatedButton.icon(
+                              icon: Icon(Icons.delete),
+                              onPressed: (){
+                                listPublicationsService.deletePublication(publications[index].publicationId).then((value) => {
+                                  publications.remove(publications[index]),
+                                  setState(() {
+                                    publications = publications;
+                                  })
+                                });
+                              }, label: Text('Eliminar'),
+                            ),),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+
             ],
           ),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: Colors.red,
+              child: const Icon(Icons.add),
+              onPressed: (){
+                _openPopupAddPub(context);
+              },)
         ),
       ),
 
@@ -133,7 +143,7 @@ class _ListPublicationsState extends State<ListPublications> {
     return Padding(padding: const EdgeInsets.all(7.0), child: widget);
   }
 
-  _openPopup(context, Publication _publication) {
+  _openPopup(context, Publication _publication, int index) {
     Publication publication = _publication;
     Alert(
         context: context,
@@ -159,9 +169,20 @@ class _ListPublicationsState extends State<ListPublications> {
         buttons: [
           DialogButton(
             // onPressed: ()=>{print(publication.name)},
-            onPressed: () => {listPublicationsService.updatePublication(publication.petId, {"name": publication.name, "urlseToImage": publication.image}).then((res){setState(() {
-              publications = publications;
-            }); }) } ,
+            onPressed: () => {listPublicationsService.updatePublication(publication.petId, {
+              "name": publication.name,
+              "urlToImage": publication.image,
+              "type": publication.type,
+              "attention": "string",
+              "race": "string",
+              "userId": publication.userId
+            }).then((res){
+              publications[index].name = publication.name;
+              publications[index].image = publication.image;
+              setState(() {
+                publications = publications;
+              }
+            ); }) } ,
             child: Text(
               "Actualizar",
               style: TextStyle(color: Colors.white, fontSize: 20),
@@ -169,4 +190,65 @@ class _ListPublicationsState extends State<ListPublications> {
           )
         ]).show();
   }
+
+  _openPopupAddPub(context) async{
+    Publication publication = Publication(0, 0, 0, "", "", "", "");
+    final prefs = await SharedPreferences.getInstance();
+    final counter = prefs.getInt('userId') ?? 0;
+    String petId = "0";
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    Alert(
+        context: context,
+        title: "Agregar Publicación",
+        content: Column(
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'petId',
+              ),
+              controller: TextEditingController(text: petId),
+              onChanged: (_petId)=>{petId= _petId},
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'comment',
+              ),
+              controller: TextEditingController(text: publication.comment),
+              onChanged: (comment)=>{publication.comment= comment},
+            ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            onPressed: ()=>{
+              listPublicationsService.postPublication({
+                "petId": int.parse(petId),
+                "userId": counter,
+                "dateTime": "2022/11/12",
+                "comment": publication.comment
+              }).then((res){
+                setState(() {
+                  String body = utf8.decode(res.bodyBytes);
+                  print(jsonDecode(body));
+                  publications.add(Publication(
+                      jsonDecode(body)["id"],
+                      jsonDecode(body)["petId"],
+                      jsonDecode(body)["userId"],
+                      "",
+                      "",
+                      "",
+                      jsonDecode(body)["comment"]
+                  ));
+                });
+              }),
+
+            },
+            child: Text(
+              "Postear",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]).show();
+  }
+
 }

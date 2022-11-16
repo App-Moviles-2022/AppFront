@@ -29,7 +29,7 @@ class _VetRegisterState extends State<VetRegister> {
   final email = TextEditingController();
   final password = TextEditingController();
   final password2 = TextEditingController();
-  final url = Uri.parse("https://timarq.xempre.com/api/v1/users/auth/sign-up");
+  final url = Uri.parse("https://timexp.xempre.com/api/v1/users/auth/sign-up");
 
   final headers = {"Content-Type": "application/json;charset=UTF-8"};
 

@@ -36,12 +36,21 @@ class ListPublicationsService{
     return response;
   }
 
-  Future<http.Response> updatePublication(petId, data) async{
-    final response = await http.put(Uri.parse("https://timexp.xempre.com/api/v1/pets/$petId"),
+  Future<http.Response> updatePublication(publicationId, Publication data) async{
+    print(data.petId);
+    print(data.publicationId);
+    print(data.userId);
+    print(data.comment);
+    final response = await http.put(Uri.parse("https://timexp.xempre.com/api/v1/publications/${data.publicationId}"),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
-      body: jsonEncode(data),
+      body: jsonEncode({
+        "petId": data.petId,
+        "userId": data.userId,
+        "dateTime": "2022-05-05",
+        "comment": data.comment
+      }),
       encoding: utf8
     );
     print(data);

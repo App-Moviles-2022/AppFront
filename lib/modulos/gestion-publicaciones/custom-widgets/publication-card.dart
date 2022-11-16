@@ -6,10 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../list-publications.service.dart';
 
 class CardPublication extends StatelessWidget {
+  Function callback;
+  Function setStatePublications;
   Publication publication;
-  late ListPublicationsService listPublicationsService = ListPublicationsService();
+  int index;
 
-  CardPublication(this.publication, {super.key});
+  CardPublication(this.publication, this.index,  this.callback, this.setStatePublications, {super.key});
   @override
   Widget build(BuildContext context) {
 
@@ -19,29 +21,26 @@ class CardPublication extends StatelessWidget {
         children: <Widget>[
           Container(
             child: Ink.image(
-                image: NetworkImage(publication.image),
+              image: NetworkImage(publication.image),
               height: 200,
               fit: BoxFit.cover,
             ),
           ),
-          padding(Text(publication.name, style: const TextStyle(fontSize: 18.0,
+          padding(Text(publication.comment, style: const TextStyle(fontSize: 18.0,
               fontFamily: "Roboto", fontWeight: FontWeight.bold, color: Colors.white),)),
           Row(
             children: <Widget>[
-              // padding(const Icon(Icons.pets, color: Colors.white70,)),
-              // padding(Text(publication.type, style: const TextStyle(fontSize: 16.0,
-              //     fontFamily: "Roboto", fontWeight: FontWeight.normal, color: Colors.white),)),
               padding(ElevatedButton.icon(
-                icon: Icon(Icons.add_business_rounded),
+                icon: Icon(Icons.edit),
                 onPressed: (){
-                }, label: Text('Adoptar'),
+                  _openPopup(context, publication, index, setStatePublications);
+                }, label: Text('Editar'),
               ),),
               padding(ElevatedButton.icon(
-                icon: Icon(Icons.account_circle_outlined),
+                icon: Icon(Icons.delete),
                 onPressed: (){
-                  listPublicationsService.deletePublication(publication.publicationId).then((value) => {
-                  });
-                }, label: Text('Ver perfil'),
+                    this.callback(publication, index);
+                }, label: Text('Eliminar'),
               ),),
             ],
           ),
@@ -54,11 +53,14 @@ class CardPublication extends StatelessWidget {
   }
 }
 
-_openPopup(context, Publication _publication, int index) async {
+_openPopup(context, Publication _publication, int index, _setStatePublications) async {
+  Function setStatePublications;
+  setStatePublications = _setStatePublications;
   Publication publication = _publication;
-  final prefs = await SharedPreferences.getInstance();
-  final counter = prefs.getInt('userId') ?? 0;
-  AdoptionRequest adoptionRequest = new AdoptionRequest(counter, _publication.userId, _publication.publicationId, "Hola", "string");
+  // final prefs = await SharedPreferences.getInstance();
+  // final counter = prefs.getInt('userId') ?? 0;
+  // late ListPublicationsService listPublicationsService = ListPublicationsService();
+
   Alert(
       context: context,
       title: "Editar Pet",
@@ -66,28 +68,81 @@ _openPopup(context, Publication _publication, int index) async {
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              labelText: 'name',
+              labelText: 'comment',
             ),
-            controller: TextEditingController(text: publication.name),
-            onChanged: (name)=>{publication.name=name},
+            controller: TextEditingController(text: publication.comment),
+            onChanged: (comment)=>{publication.comment=comment},
           ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: 'urlToImage',
-            ),
-            controller: TextEditingController(text: publication.image),
-            onChanged: (image)=>{publication.image=image},
-          ),
+          // TextField(
+          //   decoration: InputDecoration(
+          //     labelText: 'urlToImage',
+          //   ),
+          //   controller: TextEditingController(text: publication.image),
+          //   onChanged: (image)=>{publication.image=image},
+          // ),
         ],
       ),
       buttons: [
         DialogButton(
           // onPressed: ()=>{print(publication.name)},
-          onPressed: () => {} ,
+          onPressed: () => {
+            setStatePublications(publication, index)
+          } ,
           child: Text(
             "Actualizar",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
       ]).show();
+
+  // _openPopup(context, Publication _publication, int index, setStatePublications) {
+  //   Publication publication = _publication;
+  //   Alert(
+  //       context: context,
+  //       title: "Editar Pet",
+  //       content: Column(
+  //         children: <Widget>[
+  //           TextField(
+  //             decoration: InputDecoration(
+  //               labelText: 'name',
+  //             ),
+  //             controller: TextEditingController(text: publication.name),
+  //             onChanged: (name)=>{publication.name=name},
+  //           ),
+  //           TextField(
+  //             decoration: InputDecoration(
+  //               labelText: 'urlToImage',
+  //             ),
+  //             controller: TextEditingController(text: publication.image),
+  //             onChanged: (image)=>{publication.image=image},
+  //           ),
+  //         ],
+  //       ),
+  //       buttons: [
+  //         DialogButton(
+  //           // onPressed: ()=>{print(publication.name)},
+  //           onPressed: () => {
+  //             listPublicationsService.updatePublication(publication.petId, {
+  //               "name": publication.name,
+  //               "urlToImage": publication.image,
+  //               "type": publication.type,
+  //               "attention": "string",
+  //               "race": "string",
+  //               "userId": publication.userId
+  //           }).then((res){
+  //             publication.name = publication.name;
+  //             publication.image = publication.image;
+  //             setState(() {
+  //               publications = publications;
+  //             }
+  //             ); }) } ,
+  //           child: Text(
+  //             "Actualizar",
+  //             style: TextStyle(color: Colors.white, fontSize: 20),
+  //           ),
+  //         )
+  //       ]).show();
+  // }
+
 }
+

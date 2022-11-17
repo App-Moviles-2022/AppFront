@@ -39,7 +39,9 @@ class CardPublication extends StatelessWidget {
               padding(ElevatedButton.icon(
                 icon: Icon(Icons.delete),
                 onPressed: (){
-                    this.callback(publication, index);
+                  print(publication);
+                  print(index);
+                    callback(publication, index);
                 }, label: Text('Eliminar'),
               ),),
             ],

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../gestion-pet/models/pet.dart';
 import 'list-publications.service.dart';
 import 'models/publication.dart';
 import 'package:intl/intl.dart';
@@ -23,12 +24,13 @@ class _ListPublicationsState extends State<ListPublications> {
   int userId = 0;
   late http.Response temp;
   List<Publication> publications = [];
+  List<Pet> pets = [];
 
-  void callback(publication) {
+  void callback(publication, index) {
     listPublicationsService
         .deletePublication(publication.publicationId)
         .then((value) => {
-              publications.remove(publication),
+          publications.removeAt(index),
               setState(() {
                 publications = publications;
               }),
@@ -56,13 +58,12 @@ class _ListPublicationsState extends State<ListPublications> {
   void initState() {
     super.initState();
     retrieveUser().then((value) => {
-      userId = value,
+          userId = value,
           listPublicationsService
               .getPublicationsByUserId(value)
               .then((value) => {
                     setState(() {
                       String body = utf8.decode(value.bodyBytes);
-                      print(body);
                       for (var element in jsonDecode(body)) {
                         publications.add(Publication(
                             element['publicationId'],
@@ -74,7 +75,26 @@ class _ListPublicationsState extends State<ListPublications> {
                             element['comment']));
                       }
                     }),
-                  })
+                  }),
+          listPublicationsService.getPetsByUserId(userId).then((value) => {
+                setState(() {
+                  String body = utf8.decode(value.bodyBytes);
+                  print(body);
+                  for (var element in jsonDecode(body)) {
+                    pets.add(Pet(
+                        element['id'],
+                        element['type'],
+                        element['name'],
+                        element['attention'],
+                        element['age'],
+                        element['race'],
+                        element['userId'],
+                        element['publicationId'],
+                        element['gender'],
+                        element['urlToImage']));
+                  }
+                }),
+              })
         });
   }
 
@@ -119,35 +139,39 @@ class _ListPublicationsState extends State<ListPublications> {
               backgroundColor: Colors.red,
               child: const Icon(Icons.add),
               onPressed: () {
-                _openPopupAddPub(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ListPetsState()),
+                );
+                // _openPopupAddPub(context);
               },
             )),
       ),
     );
   }
 
+
   Widget padding(Widget widget) {
     return Padding(padding: const EdgeInsets.all(7.0), child: widget);
   }
 
   _openPopupAddPub(context) async {
+    late ListPublicationsService listPublicationsService =
+        ListPublicationsService();
+
     Publication publication = Publication(0, 0, 0, "", "", "", "");
     final prefs = await SharedPreferences.getInstance();
     final counter = prefs.getInt('userId') ?? 0;
     String petId = "0";
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    final List<String> list = ["a", "b"];
+    String? dropdownValue = list.first;
+
     Alert(
         context: context,
         title: "Agregar Publicación",
         content: Column(
           children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'petId',
-              ),
-              controller: TextEditingController(text: petId),
-              onChanged: (_petId) => {petId = _petId},
-            ),
+
             TextField(
               decoration: InputDecoration(
                 labelText: 'comment',
@@ -168,7 +192,6 @@ class _ListPublicationsState extends State<ListPublications> {
               }).then((res) {
                 setState(() {
                   String body = utf8.decode(res.bodyBytes);
-                  print(jsonDecode(body));
                   publications.add(Publication(
                       jsonDecode(body)["id"],
                       jsonDecode(body)["petId"],
@@ -187,23 +210,150 @@ class _ListPublicationsState extends State<ListPublications> {
           )
         ]).show();
   }
+
+
 }
 
-class DemoPublication extends StatelessWidget {
-  Function callback;
-  DemoPublication(this.callback, {super.key});
+class ListPetsState extends StatefulWidget {
+  const ListPetsState({Key? key}) : super(key: key);
+
+  @override
+  State<ListPetsState> createState() => _ListPetsState();
+}
+
+class _ListPetsState extends State<ListPetsState> {
+  late ListPublicationsService listPublicationsService =
+  ListPublicationsService();
+  int userId = 0;
+  List<Pet> pets = [];
+
+  Future<int> retrieveUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final counter = prefs.getInt('userId') ?? 0;
+    return counter;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveUser().then((value) => {
+      userId = value,
+      listPublicationsService.getPetsByUserId(userId).then((value) => {
+        setState(() {
+          String body = utf8.decode(value.bodyBytes);
+          print(body);
+          for (var element in jsonDecode(body)) {
+            pets.add(Pet(
+                element['id'],
+                element['type'],
+                element['name'],
+                element['attention'],
+                element['age'],
+                element['race'],
+                element['userId'],
+                element['publicationId'],
+                element['gender'],
+                element['urlToImage']));
+          }
+        }),
+      })
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.indigo,
-      child: ElevatedButton.icon(
-        icon: Icon(Icons.account_circle_outlined),
-        onPressed: () {
-          this.callback();
-        },
-        label: Text('Ver perfil'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Second Route'),
       ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: pets.length,
+              itemBuilder: (BuildContext context, int index){
+                return padding(ListTile(
+                  title: Text(pets[index].name.toString()),
+                  leading: Image.network("https://blog.mystart.com/wp-content/uploads/shutterstock_224423782-1-e1527774744419.jpg"),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.add_circle),
+                    tooltip: "Aceptar",
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FormNewPublication(pets[index]))
+                      );
+                  },),
+                ));
+              },
+            ),
+          ),
+        ],
+      ),
+
+    );
+  }
+
+  Widget padding(Widget widget) {
+    return Padding(padding: const EdgeInsets.all(7.0), child: widget);
+  }
+}
+class FormNewPublication extends StatelessWidget {
+  Pet pet;
+  Publication publication = Publication(0, 0, 0, "", "", "", "");
+  FormNewPublication(this.pet, {Key? key}) : super(key: key);
+  late ListPublicationsService listPublicationsService =
+  ListPublicationsService();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Form"),
+        ),
+        body: Column(
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Nombre del pet',
+              ),
+              controller: TextEditingController(text: pet.name),
+              onChanged: (comment) => {},
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'comment',
+              ),
+              controller: TextEditingController(text: publication.comment),
+              onChanged: (comment) => {publication.comment = comment},
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.red,
+          child: const Icon(
+            Icons.check,
+            color: Colors.white,
+            size: 36.0,
+          ),
+          onPressed: () {
+
+            listPublicationsService.postPublication({
+              "petId": pet.id,
+              "userId": pet.userId,
+              "dateTime": "2022/11/12",
+              "comment": publication.comment
+            }).then((res) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ListPublications()),
+              );
+            });
+          },
+        )
     );
   }
 }
+
+

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 import 'models/pet.dart';
 
@@ -21,12 +22,12 @@ class _PetDetailsState extends State<PetDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Pet Detail"),),
-      body: Center(
+      body: SingleChildScrollView(
           child:
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(bottom:10), child: Text(pet.name ?? "", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+              Padding(padding: EdgeInsets.only(top: 10)),
               Container(
                   width: 250,
                   height: 250,
@@ -45,8 +46,116 @@ class _PetDetailsState extends State<PetDetails> {
                         },
                         fit: BoxFit.cover),
                   )),
-              Padding(padding: EdgeInsets.only(bottom:10, top: 10), child: Text(pet.type ?? "", style: TextStyle(fontSize: 20), textAlign: TextAlign.center)),
-              Padding(padding: EdgeInsets.only(bottom:10), child: Text(pet.attention ?? "", style: TextStyle(fontSize: 20), textAlign: TextAlign.center,))
+              Padding(padding: EdgeInsets.only(bottom:10, top: 10), child: Text(pet.name ?? "", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.indigo), textAlign: TextAlign.center)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Chip(label: Text("Published", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),), backgroundColor: pet.isPublished!?Colors.green:Colors.red,),
+                  Chip(label: Text("Adopted",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),), backgroundColor: pet.isAdopted!?Colors.green:Colors.red,),
+              ],),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Id to publication',
+                  style: TextStyle(
+                    color: Colors.indigo,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  pet.id.toString()??"",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Age',
+                  style: TextStyle(
+                    color: Colors.indigo,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  pet.age.toString()??"",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Race',
+                  style: TextStyle(
+                    color: Colors.indigo,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  pet.race??"",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Type',
+                  style: TextStyle(
+                    color: Colors.indigo,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  pet.type??"",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Gender',
+                  style: TextStyle(
+                    color: Colors.indigo,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  pet.gender??"",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  'Attention',
+                  style: TextStyle(
+                    color: Colors.indigo,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  pet.attention??"",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+
 
             ],)
       ),

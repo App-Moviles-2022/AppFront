@@ -81,7 +81,7 @@ class _MyPetsState extends State<MyPets>{
   Widget build(BuildContext context) {
     return
       Scaffold(
-          appBar: AppBar(title: const Text("Mis mascotas"),),
+          appBar: AppBar(title: const Text("My pets"), automaticallyImplyLeading: false,),
           body:RefreshIndicator(key: UniqueKey(),child: ListView.builder(
           itemCount: pets.isEmpty ? 0 : pets.length,
           itemBuilder: (BuildContext context, i){

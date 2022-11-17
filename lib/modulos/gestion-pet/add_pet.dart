@@ -136,11 +136,11 @@ class _AddPetState extends State<AddPet> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Add Pet")),
-        body:
+        body: SafeArea(child: SingleChildScrollView(child:
         Column(
           children: [
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: typeController,
                 decoration: InputDecoration(
@@ -149,7 +149,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: nameController,
                 decoration: InputDecoration(
@@ -158,7 +158,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 keyboardType: TextInputType.number,
                 controller: ageController,
@@ -168,7 +168,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: raceController,
                 decoration: InputDecoration(
@@ -177,7 +177,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: genderController,
                 decoration: InputDecoration(
@@ -186,7 +186,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: attentionController,
                 decoration: InputDecoration(
@@ -242,14 +242,15 @@ class _AddPetState extends State<AddPet> {
               // if (response() == null){
               //   Fluttertoast.showToast(msg: "Error, ");
               // } else {
-                Fluttertoast.showToast(msg: "Pet added successful.");
-                Navigator.pop(context);
+              Fluttertoast.showToast(msg: "Pet added successful.");
+              Navigator.pop(context);
               // }
 
             }, child: Text("Save", style: TextStyle(fontSize: 20),))
 
           ],
-        )
+        ),),)
+
       );
   }
 }

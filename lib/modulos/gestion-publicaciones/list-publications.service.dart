@@ -4,8 +4,8 @@ import 'package:appfront/modulos/gestion-publicaciones/models/publication.dart';
 import 'package:http/http.dart' as http;
 
 class ListPublicationsService{
-  Future<http.Response> getAllPets() async{
-    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/publications/petsinfo"));
+  Future<http.Response> getPetsByUserId(userId) async{
+    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/pets/userid=$userId"));
     return response;
   }
 

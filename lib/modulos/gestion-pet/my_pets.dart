@@ -81,7 +81,7 @@ class _MyPetsState extends State<MyPets>{
   Widget build(BuildContext context) {
     return
       Scaffold(
-          appBar: AppBar(title: const Text("My pets"), automaticallyImplyLeading: false,),
+          appBar: AppBar(title: const Text("My pets"), automaticallyImplyLeading: false, backgroundColor: Colors.indigo,),
           body:RefreshIndicator(key: UniqueKey(),child: ListView.builder(
           itemCount: pets.isEmpty ? 0 : pets.length,
           itemBuilder: (BuildContext context, i){
@@ -114,7 +114,7 @@ class _MyPetsState extends State<MyPets>{
           }),onRefresh: ()async{await refresh();},),
 
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.indigo,
         child: const Icon(Icons.add),
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AddPet(Pet.empty()))).then((value) => {refresh()});

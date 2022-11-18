@@ -116,7 +116,7 @@ class _ListPublicationsState extends State<ListPublications> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.indigo,
               child: const Icon(Icons.add),
               onPressed: () {
                 _openPopupAddPub(context);

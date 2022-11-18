@@ -1,13 +1,11 @@
-
-
 import 'dart:convert';
 
-import 'package:appfront/modulos/gestion-usuario/manage_announcements.dart';
+import 'package:appfront/modulos/gestion-announcements/manage_announcements.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../gestion-announcements/models/announcement.dart';
+import 'models/announcement.dart';
 
 class Announcements extends StatefulWidget{
   const Announcements({Key? key}) : super(key: key);
@@ -61,17 +59,33 @@ class _AnnouncementsState extends State<Announcements> {
   /////////////////////////////
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Anuncios"),
-        actions: <Widget>[
-          IconButton(onPressed: goToManage, icon: Icon(Icons.edit_note)),
-        ],
+    return
+    MaterialApp(
+      theme: ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Announcements"),
+            bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.announcement),text: "All Announcements",),
+              Tab(icon: Icon(Icons.announcement),text: "My Announcements")
+            ],
+          ),
+          ),
+          body: TabBarView(children: [
+            buildAnnouncements(),
+            Manage_Announcements()
+          ],),
+        ),
       ),
-      body: buildAnnouncements(),
-
     );
   }
+
+
+
+
   Widget buildAnnouncements(){
     return ListView.builder(
       padding: EdgeInsets.all(15),

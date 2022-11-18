@@ -21,7 +21,7 @@ class _PetDetailsState extends State<PetDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Pet Detail"),),
+      appBar: AppBar(title: const Text("Pet Detail"), backgroundColor: Colors.indigo,),
       body: SingleChildScrollView(
           child:
           Column(

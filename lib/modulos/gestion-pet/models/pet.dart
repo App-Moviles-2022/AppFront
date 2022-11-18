@@ -13,7 +13,7 @@ class Pet {
    String? urlToImage;
 
   Pet.empty();
-  Pet(this.id,this.type, this.name, this.attention, this.age, this.race, this.userId, this.publicationId, this.gender, this.urlToImage);
+  Pet(this.id,this.type, this.name, this.attention, this.age, this.race, this.userId, this.publicationId, this.gender, this.urlToImage,this.isAdopted, this.isPublished);
 
   factory Pet.fromJson(Map<String, dynamic> json){
     return Pet(
@@ -26,7 +26,9 @@ class Pet {
       json['userId'],
       json['publicationId'],
       json['gender'],
-      json['urlToImage']
+      json['urlToImage'],
+      json['isAdopted'],
+      json['isPublished']
     );
   }
 

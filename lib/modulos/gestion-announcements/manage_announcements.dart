@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../gestion-announcements/models/announcement.dart';
+import 'models/announcement.dart';
 
 
 
@@ -39,13 +39,12 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Mis Anuncios"),
-        actions: <Widget>[
-          IconButton(onPressed: addAnnouncement, icon: Icon(Icons.add)),
-        ],
-      ),
+      appBar: null,
       body: buildAnnouncements(),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.indigo,
+          child: const Icon(Icons.add,),
+          onPressed: addAnnouncement)
 
     );
   }

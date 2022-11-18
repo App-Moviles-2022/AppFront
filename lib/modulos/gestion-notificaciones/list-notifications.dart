@@ -49,7 +49,7 @@ class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text("Notifications"), automaticallyImplyLeading: false,backgroundColor: Colors.indigo,),
       body: ListView.builder(
         itemCount: notifications.length,
         itemBuilder: (context, index) {

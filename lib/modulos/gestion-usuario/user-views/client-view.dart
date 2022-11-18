@@ -1,6 +1,6 @@
 import 'package:appfront/modulos/gestion-notificaciones/list-notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:appfront/modulos/gestion-notificaciones/announcements.dart';
+import 'package:appfront/modulos/gestion-announcements/announcements.dart';
 import 'package:appfront/modulos/gestion-usuario/perfil-usuario.dart';
 import 'package:appfront/modulos/gestion-publicaciones/list-publications.dart';
 import 'package:appfront/modulos/gestion-pet/my_pets.dart';
@@ -88,13 +88,13 @@ class _ClientViewState extends State<ClientView> {
       //   ],
       // ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.indigoAccent,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "My Profile", backgroundColor: Colors.blueAccent),
-          BottomNavigationBarItem(icon: Icon(Icons.public), label: "Publications", ),
-          BottomNavigationBarItem(icon: Icon(Icons.announcement), label: "Announcements"),
-          BottomNavigationBarItem(icon: Icon(Icons.pets), label: "My Pets"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_alert), label: "Notifications")
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "My Profile", backgroundColor: Colors.indigoAccent),
+          BottomNavigationBarItem(icon: Icon(Icons.public), label: "Publications", backgroundColor: Colors.indigoAccent),
+          BottomNavigationBarItem(icon: Icon(Icons.announcement), label: "Announcements", backgroundColor: Colors.indigoAccent),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: "My Pets" ,backgroundColor: Colors.indigoAccent),
+          BottomNavigationBarItem(icon: Icon(Icons.add_alert), label: "Notifications", backgroundColor: Colors.indigoAccent)
         ],
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,

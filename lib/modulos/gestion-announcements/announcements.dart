@@ -1,12 +1,11 @@
-
-
 import 'dart:convert';
-import 'dart:ffi';
 
-import 'package:appfront/modulos/gestion-usuario/models/announcement.dart';
+import 'package:appfront/modulos/gestion-announcements/manage_announcements.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import 'models/announcement.dart';
 
 class Announcements extends StatefulWidget{
   const Announcements({Key? key}) : super(key: key);
@@ -43,6 +42,8 @@ class _AnnouncementsState extends State<Announcements> {
         for(var element in jsonDecode(body)){
           print(element['title']);
           dataAnounsment.add(Announcement(
+            id: element['id'],
+            discount: element['discount'],
             dateTime: element['dateTime'],
               description: element['description'],
               promoted: element['promoted'],
@@ -58,15 +59,33 @@ class _AnnouncementsState extends State<Announcements> {
   /////////////////////////////
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Annuncios"),
-        actions: <Widget>[IconButton(onPressed: pushSaved, icon: Icon(Icons.book))],
+    return
+    MaterialApp(
+      theme: ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Announcements"),
+            bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.announcement),text: "All Announcements",),
+              Tab(icon: Icon(Icons.announcement),text: "My Announcements")
+            ],
+          ),
+          ),
+          body: TabBarView(children: [
+            buildAnnouncements(),
+            Manage_Announcements()
+          ],),
+        ),
       ),
-      body: buildAnnouncements(),
-
     );
   }
+
+
+
+
   Widget buildAnnouncements(){
     return ListView.builder(
       padding: EdgeInsets.all(15),
@@ -81,8 +100,10 @@ class _AnnouncementsState extends State<Announcements> {
   }
 
 
-  void pushSaved() {
+  void goToManage() {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> Manage_Announcements()));
   }
+  void pushEdit(){}
 
   Widget buildRow(Announcement announcement) {
     return Card(

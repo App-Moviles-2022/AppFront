@@ -1,5 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+
+
 class DBHelper{
   final int version = 1;
   Database? db;
@@ -15,8 +18,7 @@ class DBHelper{
           database.execute(
               'CREATE TABLE items(id INTEGER PRIMARY KEY, idList INTEGER),'
                   'name TEXT, quantity TEXT, note TEXT, FOREIGN KEY(idList) REFERENCES lists(id)');
-        }, version: version
-          );
+        }, version: version);
     }
     return db!;
   }

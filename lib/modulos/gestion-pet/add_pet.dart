@@ -4,10 +4,11 @@ import 'package:appfront/modulos/gestion-pet/models/pet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class AddPet extends StatefulWidget {
-
+/**trabajar aqui*/
   Pet pet = Pet.empty();
   AddPet(this.pet);
   @override
@@ -20,7 +21,6 @@ class _AddPetState extends State<AddPet> {
   Pet pet = Pet.empty();
   _AddPetState(this.pet);
 
-  static int userId = 5;
   double v_padding = 20;
   bool isEdit = false;
 
@@ -35,6 +35,9 @@ class _AddPetState extends State<AddPet> {
 
 
   Future<String> saveRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+
     String url = "https://timexp.xempre.com/api/v1/pets";
     final data = jsonEncode(<String, dynamic>{
       'type': typeController.text,
@@ -61,6 +64,9 @@ class _AddPetState extends State<AddPet> {
   }
 
   Future<String> updateRequest() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+
     String url = "https://timexp.xempre.com/api/v1/pets/${pet.id}";
     final data = jsonEncode(<String, dynamic>{
       'type': typeController.text,
@@ -130,11 +136,11 @@ class _AddPetState extends State<AddPet> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Add Pet")),
-        body:
+        body: SafeArea(child: SingleChildScrollView(child:
         Column(
           children: [
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: typeController,
                 decoration: InputDecoration(
@@ -143,7 +149,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: nameController,
                 decoration: InputDecoration(
@@ -152,7 +158,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 keyboardType: TextInputType.number,
                 controller: ageController,
@@ -162,7 +168,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: raceController,
                 decoration: InputDecoration(
@@ -171,7 +177,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: genderController,
                 decoration: InputDecoration(
@@ -180,7 +186,7 @@ class _AddPetState extends State<AddPet> {
                 ),
               ),),),
             SizedBox(height: v_padding,),
-            Flexible(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+            Container(child:           Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: attentionController,
                 decoration: InputDecoration(
@@ -236,14 +242,15 @@ class _AddPetState extends State<AddPet> {
               // if (response() == null){
               //   Fluttertoast.showToast(msg: "Error, ");
               // } else {
-                Fluttertoast.showToast(msg: "Pet added successful.");
-                Navigator.pop(context);
+              Fluttertoast.showToast(msg: "Pet added successful.");
+              Navigator.pop(context);
               // }
 
             }, child: Text("Save", style: TextStyle(fontSize: 20),))
 
           ],
-        )
+        ),),)
+
       );
   }
 }

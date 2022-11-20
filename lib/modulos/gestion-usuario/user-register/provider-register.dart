@@ -7,6 +7,7 @@ import 'package:appfront/modulos/gestion-usuario/models/user.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
+
 class ProviderRegister extends StatefulWidget {
   ProviderRegister({Key? key}) : super(key: key);
 

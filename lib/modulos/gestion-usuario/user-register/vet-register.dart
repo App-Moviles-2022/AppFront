@@ -7,6 +7,7 @@ import 'package:appfront/modulos/gestion-usuario/models/user.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
+
 class VetRegister extends StatefulWidget {
   VetRegister({Key? key}) : super(key: key);
 
@@ -206,7 +207,6 @@ class _VetRegisterState extends State<VetRegister> {
               TextButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientLogin()));
-
                   },
                   child: const Text("Ya tengo una cuenta"))
             ],

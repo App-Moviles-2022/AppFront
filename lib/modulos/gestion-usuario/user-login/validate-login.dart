@@ -222,6 +222,7 @@ class UserPreferences {
     return token;
   }
 }*/
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -263,9 +264,6 @@ class Modelo {
 
 }
 
-
-
-
 }
 
 Future<http.Response> postPublication() async{
@@ -281,5 +279,3 @@ Future<http.Response> postPublication() async{
   print(response.statusCode);
   return response;
 }
-
-

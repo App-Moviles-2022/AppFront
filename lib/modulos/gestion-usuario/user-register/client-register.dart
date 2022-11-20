@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:appfront/modulos/gestion-usuario/models/user.dart';
 import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/vet-login.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/provider-login.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterPageClient extends StatefulWidget {
@@ -231,7 +229,7 @@ class _RegisterPageClientState extends State<RegisterPageClient> {
     final user = {
       "name": name.text,
       "pass": password.text,
-      "type": "Veterinario",
+      "type": "Cliente",
       "lastName": lastName.text,
       "userNick": userNick.text,
       "ruc": ruc.text,
@@ -240,7 +238,7 @@ class _RegisterPageClientState extends State<RegisterPageClient> {
       "email": email.text,
       "urlToImageBackground": urlToImageBackground.text,
       "urlToImageProfile":urlToImageProfile.text,
-      "districtId":0,
+      "districtId":1,
     };
     final res = await http.post(url, headers: headers, body: jsonEncode(user));
 

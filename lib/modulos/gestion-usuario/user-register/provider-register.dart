@@ -7,8 +7,7 @@ import 'package:appfront/modulos/gestion-usuario/models/user.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/vet-login.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/provider-login.dart';
+
 class ProviderRegister extends StatefulWidget {
   ProviderRegister({Key? key}) : super(key: key);
 
@@ -201,7 +200,7 @@ class _ProviderRegisterState extends State<ProviderRegister> {
 
                   onPressed: () {
                     register();
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProviderLogin()));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientLogin()));
                   },
 
 
@@ -209,7 +208,7 @@ class _ProviderRegisterState extends State<ProviderRegister> {
               TextButton(
                   onPressed: () {
 
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProviderLogin()));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientLogin()));
 
                   },
                   child: const Text("Ya tengo una cuenta"))
@@ -234,7 +233,7 @@ class _ProviderRegisterState extends State<ProviderRegister> {
     final user = {
       "name": name.text,
       "pass": password.text,
-      "type": "Provider",
+      "type": "Proveedor",
       "lastName": lastName.text,
       "userNick": userNick.text,
       "ruc": ruc.text,
@@ -243,7 +242,7 @@ class _ProviderRegisterState extends State<ProviderRegister> {
       "email": email.text,
       "urlToImageBackground": urlToImageBackground.text,
       "urlToImageProfile":urlToImageProfile.text,
-      "districtId":0,
+      "districtId":1,
     };
     final res = await http.post(url, headers: headers, body: jsonEncode(user));
 

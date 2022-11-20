@@ -222,7 +222,7 @@ class UserPreferences {
     return token;
   }
 }*/
-import 'package:appfront/modulos/gestion-usuario/models/client.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -242,8 +242,7 @@ class Modelo {
     );
     var body = json.decode(response.body);
     print(body);
-    // print(jsonDecode(body));
-    // print(response.statusCode);
+
     if (response.statusCode == 200) {
   // obtain shared preferences
         final prefs = await SharedPreferences.getInstance();
@@ -251,7 +250,7 @@ class Modelo {
         await prefs.setInt('userId', body['id']);
 
         // User user = User.fromJson(body);
-        // print("PERRRRRRO");
+
         // print(user);
 
         await prefs.setString('user', jsonEncode(body));
@@ -265,29 +264,6 @@ class Modelo {
 
 }
 
-
-
-
-
-
-
-
-
-
-/*static Future<bool> registrar(String name, String password) async {
-    var response = await http.post(
-        Uri.parse('https://timexp.xempre.com/api/v1/users/auth/sign-in'),
-        headers: {"Content-type": "application/json"},
-        body: json.encode({"name": name}));
-    if (response.statusCode == 200) {
-      if (response.body.length > 0) {
-        var usuario = json.decode(response.body);
-        print("Usuario: " + usuario.toString());
-        return true;
-      }
-    }
-    return false;
-  }*/
 }
 
 Future<http.Response> postPublication() async{
@@ -299,34 +275,7 @@ Future<http.Response> postPublication() async{
   );
   // String body = utf8.decode(response.bodyBytes);
   // print(jsonDecode(body));
-  print("tercerintento");
+
   print(response.statusCode);
   return response;
-}
-
-
-Future<http.Response> funcionaporfa() async {
-
-  String email="user";
-  final responsefinal = await http.post(
-    encoding: utf8,
-    Uri.parse(
-        'https://timarq.xempre.com/api/v1/users'),
-    headers: {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    },
-
-    body: jsonEncode(<String, String>{
-      'userNick': email,
-    }),
-
-  );
-
-
-  // if (responsefinal.statusCode == 200) {}
-
-  print("ola");
-  print(responsefinal.statusCode);
-  return responsefinal;
 }

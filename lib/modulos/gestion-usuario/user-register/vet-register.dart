@@ -7,8 +7,7 @@ import 'package:appfront/modulos/gestion-usuario/models/user.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/vet-login.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/provider-login.dart';
+
 class VetRegister extends StatefulWidget {
   VetRegister({Key? key}) : super(key: key);
 
@@ -201,14 +200,13 @@ class _VetRegisterState extends State<VetRegister> {
 
                   onPressed: () {
                     register();
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => VetLogin()));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientLogin()));
                   },
 
                   child: const Text("Crear cuenta")),
               TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => VetLogin()));
-
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientLogin()));
                   },
                   child: const Text("Ya tengo una cuenta"))
             ],
@@ -232,7 +230,7 @@ class _VetRegisterState extends State<VetRegister> {
     final user = {
       "name": name.text,
       "pass": password.text,
-      "type": "Vet",
+      "type": "Veterinario",
       "lastName": lastName.text,
       "userNick": userNick.text,
       "ruc": ruc.text,
@@ -241,7 +239,7 @@ class _VetRegisterState extends State<VetRegister> {
       "email": email.text,
       "urlToImageBackground": urlToImageBackground.text,
       "urlToImageProfile":urlToImageProfile.text,
-      "districtId":0,
+      "districtId":1,
     };
     final res = await http.post(url, headers: headers, body: jsonEncode(user));
 

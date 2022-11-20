@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/vet-login.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/provider-login.dart';
+
 class TypeUserLogin extends StatefulWidget {
   const TypeUserLogin({Key? key}) : super(key: key);
 
@@ -166,7 +165,7 @@ class _TypeUserLoginState extends State<TypeUserLogin> {
 
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => VetLogin()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientLogin()));
                                         },
                                         style: ButtonStyle(
                                             backgroundColor:
@@ -261,7 +260,7 @@ class _TypeUserLoginState extends State<TypeUserLogin> {
 
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProviderLogin()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientLogin()));
                                         },
                                         style: ButtonStyle(
                                             backgroundColor:

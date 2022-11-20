@@ -272,11 +272,9 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
         ),
       );
     }
-      catch (e){
-        return Container();
-      }
-
-
+    catch (e){
+      return Container();
+    }
   }
 }
 

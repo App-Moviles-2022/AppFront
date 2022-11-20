@@ -93,8 +93,7 @@ class _ListPublicationsState extends State<ListPublications> {
                         element['gender'],
                         element['urlToImage'],
                         element['isAdopted'],
-                        element['isPublished'])
-                    );
+                        element['isPublished']));
                   }
                 }),
               })

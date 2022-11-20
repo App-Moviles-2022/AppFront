@@ -91,7 +91,10 @@ class _ListPublicationsState extends State<ListPublications> {
                         element['userId'],
                         element['publicationId'],
                         element['gender'],
-                        element['urlToImage']));
+                        element['urlToImage'],
+                        element['isAdopted'],
+                        element['isPublished'])
+                    );
                   }
                 }),
               })
@@ -253,7 +256,9 @@ class _ListPetsState extends State<ListPetsState> {
                 element['userId'],
                 element['publicationId'],
                 element['gender'],
-                element['urlToImage']));
+                element['urlToImage'],
+                element['isAdopted'],
+                element['isPublished']));
           }
         }),
       })

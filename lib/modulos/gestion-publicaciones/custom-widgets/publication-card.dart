@@ -11,10 +11,11 @@ class CardPublication extends StatelessWidget {
   Publication publication;
   int index;
 
-  CardPublication(this.publication, this.index,  this.callback, this.setStatePublications, {super.key});
+  CardPublication(
+      this.publication, this.index, this.callback, this.setStatePublications,
+      {super.key});
   @override
   Widget build(BuildContext context) {
-
     return Card(
       color: Colors.indigo,
       child: Column(
@@ -26,36 +27,51 @@ class CardPublication extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          padding(Text(publication.comment, style: const TextStyle(fontSize: 18.0,
-              fontFamily: "Roboto", fontWeight: FontWeight.bold, color: Colors.white),)),
+          padding(Text(
+            publication.comment,
+            style: const TextStyle(
+                fontSize: 18.0,
+                fontFamily: "Roboto",
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          )),
           Row(
             children: <Widget>[
-              padding(ElevatedButton.icon(
-                icon: Icon(Icons.edit),
-                onPressed: (){
-                  _openPopup(context, publication, index, setStatePublications);
-                }, label: Text('Editar'),
-              ),),
-              padding(ElevatedButton.icon(
-                icon: Icon(Icons.delete),
-                onPressed: (){
-                  print(publication);
-                  print(index);
+              padding(
+                ElevatedButton.icon(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    _openPopup(
+                        context, publication, index, setStatePublications);
+                  },
+                  label: Text('Editar'),
+                ),
+              ),
+              padding(
+                ElevatedButton.icon(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    print(publication);
+                    print(index);
                     callback(publication, index);
-                }, label: Text('Eliminar'),
-              ),),
+                  },
+                  label: Text('Eliminar'),
+                ),
+              ),
             ],
           ),
         ],
       ),
     );
   }
+
   Widget padding(Widget widget) {
     return Padding(padding: const EdgeInsets.all(7.0), child: widget);
   }
 }
 
-_openPopup(context, Publication _publication, int index, _setStatePublications) async {
+_openPopup(
+    context, Publication _publication, int index, _setStatePublications) async {
   Function setStatePublications;
   setStatePublications = _setStatePublications;
   Publication publication = _publication;
@@ -73,7 +89,7 @@ _openPopup(context, Publication _publication, int index, _setStatePublications) 
               labelText: 'comment',
             ),
             controller: TextEditingController(text: publication.comment),
-            onChanged: (comment)=>{publication.comment=comment},
+            onChanged: (comment) => {publication.comment = comment},
           ),
           // TextField(
           //   decoration: InputDecoration(
@@ -87,9 +103,7 @@ _openPopup(context, Publication _publication, int index, _setStatePublications) 
       buttons: [
         DialogButton(
           // onPressed: ()=>{print(publication.name)},
-          onPressed: () => {
-            setStatePublications(publication, index)
-          } ,
+          onPressed: () => {setStatePublications(publication, index)},
           child: Text(
             "Actualizar",
             style: TextStyle(color: Colors.white, fontSize: 20),
@@ -145,6 +159,4 @@ _openPopup(context, Publication _publication, int index, _setStatePublications) 
   //         )
   //       ]).show();
   // }
-
 }
-

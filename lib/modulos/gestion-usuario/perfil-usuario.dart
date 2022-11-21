@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:html';
 
+import 'package:appfront/modulos/gestion-usuario/user-login/validate-login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'login-user.dart';
 import 'models/user.dart';
 
 class PerfilUsuario extends StatefulWidget {
@@ -46,6 +49,14 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     try{
       return Scaffold(
         appBar: AppBar(title: Text("Profile"), backgroundColor: Colors.indigo,automaticallyImplyLeading: false,),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            Modelo.logout();
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const TypeUserLogin()));
+          },
+          icon: Icon(Icons.close),
+          label: Text("Logout"),
+        ),
         body: ListView(
           children: <Widget>[
             Container(
@@ -265,9 +276,10 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       ),
                     ),
                   ),
+                  Divider(),
                 ],
               ),
-            )
+            ),
           ],
         ),
       );

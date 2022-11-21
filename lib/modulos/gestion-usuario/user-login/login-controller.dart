@@ -13,11 +13,11 @@ class LoginController extends GetxController{
     //cuando termine de procesar me haga esta accion(then)
     Modelo.iniciarSesion(correo, password).then((value){
       if(value){
-        mensaje="Bienvenido";
+        mensaje="Welcome";
         update();
       }
       else{
-        mensaje="Correo o mensaje no valido";
+        mensaje="Email or password not valid";
         update();
       }
       update();

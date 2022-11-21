@@ -55,7 +55,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       alignment: Alignment.center,
                       padding: const EdgeInsets.all(10),
                       child: const Text(
-                        'Cliente',
+                        'Client',
                         style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.w500,
@@ -123,7 +123,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                   Row(
                     children: <Widget>[
-                      const Text('Does not have account?'),
+                      const Text('Do not have an account?'),
                       TextButton(
                         child: const Text(
                           'Sign in',

@@ -4,6 +4,8 @@ import 'package:appfront/modulos/gestion-notificaciones/models/Notification.dart
 import 'package:appfront/modulos/gestion-notificaciones/notifications.service.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/confirm-dialog.dart';
+
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
 
@@ -74,7 +76,33 @@ class _NotificationsState extends State<Notifications> {
             child: ListTile(
               title: Text(notifications[index].message),
               leading: Image.network("https://cdn-icons-png.flaticon.com/512/147/147144.png"),
-              trailing: IconButton(icon: const Icon(Icons.add_circle),  tooltip: "Aceptar", onPressed: () {  },),
+              trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(icon: const Icon(Icons.check_circle),
+                      color: Colors.green,
+                      tooltip: "Aceptar", onPressed: () {
+                      showConfirmDialog(context, 'Confirm adoption request', 'Are you sure you want to accept the adoption request?', () {
+                        // Este es el callback de confirmación
+
+                        setState(() {
+                          notifications.removeAt(index);
+                        });
+                      });
+                      },),
+                    IconButton(icon: const Icon(Icons.cancel),
+                        color: Colors.red,
+                        tooltip: "Rechazar", onPressed: () {
+                        showConfirmDialog(context, 'Refuse adoption request', 'Are you sure you want to refuse the adoption request?', () {
+                          // Este es el callback de confirmación
+
+                          setState(() {
+                            notifications.removeAt(index);
+                          });
+                        });
+                      },),
+                  ])
+
             ),
           );
         },

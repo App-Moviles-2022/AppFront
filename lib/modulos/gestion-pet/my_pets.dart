@@ -97,7 +97,9 @@ class _MyPetsState extends State<MyPets>{
                 child: Card(child: ListTile(
                   title: Text(pets[i].name ?? ""),
                   subtitle: Text(  pets[i].type ?? "" ),
-                  leading: CircleAvatar(backgroundImage: NetworkImage(imageValidator[i] ? pets[i].urlToImage.toString() : defaultPet), onBackgroundImageError: (a,b){
+                  leading: CircleAvatar(backgroundImage:
+                  NetworkImage(imageValidator[i] ? pets[i].urlToImage.toString() : defaultPet),
+                    onBackgroundImageError: (a,b){
                     setState(() {
                       imageValidator[i] = false;
                     });
@@ -105,7 +107,7 @@ class _MyPetsState extends State<MyPets>{
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PetDetails(pets[i])));
                   },
-                  trailing: IconButton(icon: Icon(Icons.edit), onPressed: (){
+                  trailing: IconButton(icon: Icon(Icons.edit, color: Colors.indigo,), onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AddPet(pets[i]))).then((value) => {refresh()});
                     },),
 

@@ -16,35 +16,48 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   NotificationsService notificationsService = NotificationsService();
   List<AdoptionNotification> notifications = [];
-  List<String> productos = [
-    "Hola, estaria encantado de adoptar a esta mascota!",
-    "Buenas tardes, quisiera que se comunique conmigo por favor",
-    "Buenas tardes, quisiera que se comunique conmigo por favor",
-    "Buenas tardes, quisiera que se comunique conmigo por favor",
-  ];
 
   @override
   void initState(){
     super.initState();
-    notificationsService.getAllNotifications().then((value) => {
-      setState(() {
-        String body = utf8.decode(value.bodyBytes);
-        print(body);
-        for(var element in jsonDecode(body)){
-          notifications.add(
+    loadNotifications();
+  }
+
+  void loadNotifications() {
+    notifications.clear();
+    notificationsService.getAllNotificationsFrom().then((valueFrom) => {
+      notificationsService.getAllNotificationsAt().then((valueAt) => {
+        setState(() {
+          String bodyFrom = utf8.decode(valueFrom.bodyBytes);
+          String bodyTo = utf8.decode(valueAt.bodyBytes);
+
+          for(var element in jsonDecode(bodyFrom)) {
+            notifications.add(
               AdoptionNotification(
-                  element['id'],
-                  element['userIdAt'],
-                  element['userIdFrom'],
-                  element['publicationId'],
-                  element['message'],
-                  element['status'],
+                element['id'],
+                element['userIdAt'],
+                element['userIdFrom'],
+                element['publicationId'],
+                element['message'],
+                element['status'],
               )
-          );
-        }
+            );
+          }
 
+          for(var element in jsonDecode(bodyTo)){
+            notifications.add(
+              AdoptionNotification(
+                element['id'],
+                element['userIdAt'],
+                element['userIdFrom'],
+                element['publicationId'],
+                element['message'],
+                element['status'],
+              )
+            );
+          }
+        }),
       }),
-
     });
   }
 
@@ -76,32 +89,40 @@ class _NotificationsState extends State<Notifications> {
             child: ListTile(
               title: Text(notifications[index].message),
               leading: Image.network("https://cdn-icons-png.flaticon.com/512/147/147144.png"),
-              trailing: Row(
+              trailing: notifications[index].status == 0 ? Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     IconButton(icon: const Icon(Icons.check_circle),
                       color: Colors.green,
                       tooltip: "Aceptar", onPressed: () {
-                      showConfirmDialog(context, 'Confirm adoption request', 'Are you sure you want to accept the adoption request?', () {
-                        // Este es el callback de confirmación
-
-                        setState(() {
-                          notifications.removeAt(index);
-                        });
-                      });
-                      },),
+                      showConfirmDialog(context, 'Confirm adoption request',
+                          'Are you sure you want to accept the adoption request?', () {
+                            // Este es el callback de confirmación
+                            notificationsService.markAdoptionRequestAsAccepted(
+                                notifications[index].id).then((value) =>
+                            {
+                              setState(() {
+                                loadNotifications();
+                              })
+                            });
+                                });
+                      }),
                     IconButton(icon: const Icon(Icons.cancel),
                         color: Colors.red,
                         tooltip: "Rechazar", onPressed: () {
                         showConfirmDialog(context, 'Refuse adoption request', 'Are you sure you want to refuse the adoption request?', () {
                           // Este es el callback de confirmación
 
-                          setState(() {
-                            notifications.removeAt(index);
+                          notificationsService.markAdoptionRequestAsRejected(
+                              notifications[index].id).then((value) =>
+                          {
+                            setState(() {
+                              loadNotifications();
+                            })
                           });
                         });
                       },),
-                  ])
+                  ]) : null
 
             ),
           );

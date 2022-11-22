@@ -1,11 +1,44 @@
 import 'dart:convert';
 
-import 'package:appfront/modulos/gestion-publicaciones/models/publication.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationsService{
-  Future<http.Response> getAllNotifications() async{
-    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/adoptionsrequests"));
+  Future<http.Response> getAllNotificationsFrom() async{
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId');
+
+    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/adoptionsrequests/useridfrom=$userId"));
+    return response;
+  }
+
+  Future<http.Response> getAllNotificationsAt() async{
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId');
+
+    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/adoptionsrequests/useridat=$userId"));
+    return response;
+  }
+
+  Future<http.Response> markAdoptionRequestAsAccepted(id) async{
+    final response = await http.put(Uri.parse('https://timexp.xempre.com/api/v1/adoptionsrequests/$id'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: '{"message": "The owner accepted your adoption request.", "status": 1}',
+        encoding: utf8);
+
+    print(utf8.decode(response.bodyBytes));
+    return response;
+  }
+
+  Future<http.Response> markAdoptionRequestAsRejected(id) async{
+    final response = await http.put(Uri.parse('https://timexp.xempre.com/api/v1/adoptionsrequests/$id'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: '{"message": "The owner accepted your adoption request.", "status": 2}',
+        encoding: utf8);
     return response;
   }
 

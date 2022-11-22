@@ -4,6 +4,7 @@ import 'package:appfront/modulos/gestion-usuario/ui/announcement_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/announcement.dart';
 
@@ -17,30 +18,35 @@ class Manage_Announcements extends StatefulWidget{
 }
 
 class Manage_AnnouncementsState extends State<Manage_Announcements>{
+  String defaultImage = "https://definicion.de/wp-content/uploads/2009/07/descuento.jpg";
+  List<bool> imageValidator = [];
+
   final List<Announcement> announcements = <Announcement>[];
   final TextStyle biggerFont = TextStyle(fontSize: 18);
 
   final Set<Announcement> saved= Set<Announcement>();
 
-  final List<Announcement> data=[];
+  List<Announcement> data=[];
   AnnouncementDialog? dialog;
-  Future<http.Response> getadds() async{
-    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/advertisements"));
+  Future<http.Response> getAdds() async{
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/users/${userId}/advertisements"));
     return response;
   }
-  Future<String> deleteAnnouncement(int id) async{
+  Future<http.Response> deleteAnnouncement(int id) async{
     final response = await http.delete(
         Uri.parse("https://timexp.xempre.com/api/v1/advertisements/${id}"),
         headers: {'Content-type': 'application/json'},
         encoding: Encoding.getByName("utf-8")
     );
-    return response.body;
+    return response;
   }
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: null,
-      body: buildAnnouncements(),
+      body: RefreshIndicator(child: buildAnnouncements(),onRefresh: ()async{await reloadAnnouncements();},),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.indigo,
           child: const Icon(Icons.add,),
@@ -49,28 +55,36 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
     );
   }
 
-  @override
-  void initState(){
-    dialog = AnnouncementDialog();
-    super.initState();
-    getadds().then((value) => {
+  Future reloadAnnouncements() async{
+    getAdds().then((value) => {
       setState(() {
+        data = [];
         String body = utf8.decode(value.bodyBytes);
         for(var element in jsonDecode(body)){
           print(element['title']);
           data.add(Announcement(
-            dateTime: element['dateTime'],
-            id: element['id'],
-            discount: element['discount'],
-            description: element['description'],
-            promoted: element['promoted'],
-            title: element['title'],
-            urlToImage: element['urlToImage'],
+              dateTime: element['dateTime'],
+              id: element['id'],
+              discount: element['discount'],
+              description: element['description'],
+              promoted: element['promoted'],
+              title: element['title'],
+              urlToImage: element['urlToImage'],
+              latitude: element['latitude'],
+              longitude: element['longitude']
           ));
         }
+        imageValidator = List.filled(data.length, true, growable: true);
       }),
 
     });
+  }
+
+  @override
+  void initState(){
+    dialog = AnnouncementDialog();
+    super.initState();
+    reloadAnnouncements();
   }
   void addAnnouncement(){
     showDialog(context: context, builder: (BuildContext context)=>
@@ -82,6 +96,8 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
             id: 0,
             discount: 0,
             urlToImage: '',
+          latitude: "0",
+          longitude: "0"
         ),
             true)
     );
@@ -95,13 +111,13 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
         print(i);
         Announcement item1 = data[i];
         announcements.add(item1);
-        return buildRow(announcements[i]);
+        return buildRow(data[i], i);
       },
       itemCount: data.length,
     );
   }
 
-  Widget buildRow(Announcement announcement) {
+  Widget buildRow(Announcement announcement, int i) {
     return Card(
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
@@ -110,27 +126,27 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
         child: Column(children: [
           Stack(
             children: [
-              Ink.image(image: NetworkImage(
-                  announcement.urlToImage
+              Ink.image(image:
+              NetworkImage(
+                  imageValidator[i] ? announcement.urlToImage.toString() : defaultImage
               ),
+                onImageError: (a,b){
+                  setState(() {
+                    imageValidator[i] = false;
+                  });
+                },
+
+
                 height: 300,
                 fit: BoxFit.cover,
-              ),
-              Positioned(
-                  bottom: 16,
-                  right: 16,
-                  left: 16,
-                  child: Text(announcement.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                      fontSize: 24,
-                    ),
-                  )
               )
-
             ],
           ),
+          Text(announcement.title??"", style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.indigo,
+            fontSize: 24,
+          )),
           Padding(
             padding: EdgeInsets.all(16).copyWith(bottom: 0),
             child: Text(announcement.description,

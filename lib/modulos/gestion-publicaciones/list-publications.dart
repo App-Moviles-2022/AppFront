@@ -331,7 +331,11 @@ class _ListPetsState extends State<ListPetsState> {
               itemBuilder: (BuildContext context, int index){
                 return padding(ListTile(
                   title: Text(pets[index].name.toString()),
-                  leading: Image.network("https://blog.mystart.com/wp-content/uploads/shutterstock_224423782-1-e1527774744419.jpg"),
+                  leading: CircleAvatar(backgroundImage:
+                  NetworkImage(pets[index].urlToImage.toString()),
+                    onBackgroundImageError: (a,b){
+
+                    },),
                   trailing: IconButton(
                     icon: const Icon(Icons.add_circle),
                     tooltip: "Aceptar",

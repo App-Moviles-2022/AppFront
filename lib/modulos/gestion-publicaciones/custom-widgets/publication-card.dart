@@ -115,7 +115,7 @@ _openPopupAdoptar(
   setStateNotifications = _setStateNotifications;
   setStatePublications = _setStatePublications;
   Publication publication = _publication;
-  AdoptionRequest adoptionRequest = AdoptionRequest(userId, publication.userId, publication.publicationId, "", 1, publication.petId);
+  AdoptionRequest adoptionRequest = AdoptionRequest(userId, publication.userId, publication.publicationId, "", 0, publication.petId);
 
   Alert(
       context: context,

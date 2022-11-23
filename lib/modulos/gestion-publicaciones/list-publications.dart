@@ -157,6 +157,7 @@ class _ListPublicationsState extends State<ListPublications> {
     // DBHelper helper = DBHelper();
     // helper.testDB();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.from(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
       home: DefaultTabController(
@@ -405,9 +406,11 @@ class FormNewPublication extends StatelessWidget {
               "dateTime": "2022/11/12",
               "comment": publication.comment
             }).then((res) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ListPublications()),
+              int count = 0;
+              Navigator.popUntil(
+                context, (r){
+                return count++ == 2;
+              }
               );
             });
           },

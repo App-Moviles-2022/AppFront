@@ -81,6 +81,7 @@ class _AnnouncementsState extends State<Announcements> {
   Widget build(BuildContext context){
     return
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.from(colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
       home: DefaultTabController(
         length: 2,

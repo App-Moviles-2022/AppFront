@@ -10,6 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:appfront/modulos/gestion-usuario/user-login/validate-login.dart';
+import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/client-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/client-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/models/user-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/models/user-accept-terms.dart';
+import 'package:appfront/modulos/gestion-usuario/models/index.dart' as globals;
+
 class ClientLogin extends StatelessWidget {
   const ClientLogin({Key? key}) : super(key: key);
   static const String _title = 'AdoptMe App';
@@ -17,6 +23,7 @@ class ClientLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
@@ -55,7 +62,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       alignment: Alignment.center,
                       padding: const EdgeInsets.all(10),
                       child: const Text(
-                        'Cliente',
+                        'Client',
                         style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.w500,
@@ -106,7 +113,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         void func() async{
                           bool validate = await Modelo.iniciarSesion(emailController.text, passwordController.text);
                           if(validate==true)
-                          {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientView()));}
+                          {globals.termsConditions=false;
+                            print("ACA ESTOY");
+                            Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (BuildContext context) => ClientView()),
+                                ModalRoute.withName('/'),
+                          );}
                         }
                         func();
 
@@ -123,7 +135,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                   Row(
                     children: <Widget>[
-                      const Text('Does not have account?'),
+                      const Text('Do not have an account?'),
                       TextButton(
                         child: const Text(
                           'Sign in',

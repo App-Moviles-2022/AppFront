@@ -7,21 +7,19 @@ import 'package:http/http.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:appfront/modulos/gestion-usuario/user-login/validate-login.dart';
-class LoginController extends GetxController{
+import 'package:appfront/modulos/gestion-usuario/models/index.dart' as globals;
+class TermsConditionsController extends GetxController{
   String mensaje ='';
-  void iniciarSesion(String correo, String password){
-    //cuando termine de procesar me haga esta accion(then)
-    Modelo.iniciarSesion(correo, password).then((value){
-      if(value){
-        mensaje="Welcome";
+  void createCount(){
+
+      if(globals.termsConditions==true){
+        mensaje="Gracias por aceptar nuestros terminos y condiciones";
         update();
       }
       else{
-        mensaje="Email or password not valid";
+        mensaje="Debe de aceptar nuestros terminos y condiciones";
         update();
       }
-      update();
-    });
     update();
   }
 

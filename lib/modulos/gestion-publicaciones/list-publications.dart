@@ -24,6 +24,7 @@ class _ListPublicationsState extends State<ListPublications> {
   int userId = 0;
   late http.Response temp;
   List<Publication> publications = [];
+  List<Publication> allPublications = [];
   List<Pet> pets = [];
 
   void callback(publication, index) {
@@ -52,6 +53,39 @@ class _ListPublicationsState extends State<ListPublications> {
                 publications = publications;
               })
             });
+  }
+
+  void setStateNotifications(AdoptionRequest adoptionRequest) {
+    Pet pet;
+    listPublicationsService
+        .enviarSolicitud(adoptionRequest)
+        .then((value) => {
+
+          listPublicationsService.getPetById(adoptionRequest.petId).then((responsePet) => {
+            setState(() {
+              String petBody = utf8.decode(responsePet.bodyBytes);
+              pet = Pet(
+                  jsonDecode(petBody)["id"],
+                  jsonDecode(petBody)["type"],
+                  jsonDecode(petBody)["name"],
+                  jsonDecode(petBody)["attention"],
+                  jsonDecode(petBody)["age"],
+                  jsonDecode(petBody)["race"],
+                  jsonDecode(petBody)["userId"],
+                  jsonDecode(petBody)["publicationId"],
+                  jsonDecode(petBody)["gender"],
+                  jsonDecode(petBody)["urlToImage"],
+                  jsonDecode(petBody)["isAdopted"],
+                  true);
+              listPublicationsService.updatePet(pet).then((val) => {
+                print("ACTUALIZACIÓN DEL PET EXITOSA")
+              });
+            }),
+          }),
+      setState(() {
+        publications = publications;
+      })
+    });
   }
 
   @override
@@ -96,7 +130,25 @@ class _ListPublicationsState extends State<ListPublications> {
                         element['isPublished']));
                   }
                 }),
-              })
+              }),
+      listPublicationsService
+          .getPublicationsPetsInfo()
+          .then((value) => {
+        setState(() {
+          String body = utf8.decode(value.bodyBytes);
+          for (var element in jsonDecode(body)) {
+            allPublications.add(Publication(
+                element['publicationId'],
+                element['petId'],
+                element['userId'],
+                element['type'],
+                element['image'],
+                element['name'],
+                element['comment']));
+          }
+        }),
+      }),
+
         });
   }
 
@@ -105,6 +157,7 @@ class _ListPublicationsState extends State<ListPublications> {
     // DBHelper helper = DBHelper();
     // helper.testDB();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.from(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
       home: DefaultTabController(
@@ -122,10 +175,10 @@ class _ListPublicationsState extends State<ListPublications> {
             body: TabBarView(
               children: [
                 ListView.builder(
-                  itemCount: publications.length,
+                  itemCount: allPublications.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return CardPublication(publications[index], index, callback,
-                        setStatePublications);
+                    return CardPublicationGeneral(allPublications[index], index, callback,
+                        setStatePublications,setStateNotifications, userId);
                   },
                 ),
                 ListView.builder(
@@ -279,7 +332,11 @@ class _ListPetsState extends State<ListPetsState> {
               itemBuilder: (BuildContext context, int index){
                 return padding(ListTile(
                   title: Text(pets[index].name.toString()),
-                  leading: Image.network("https://blog.mystart.com/wp-content/uploads/shutterstock_224423782-1-e1527774744419.jpg"),
+                  leading: CircleAvatar(backgroundImage:
+                  NetworkImage(pets[index].urlToImage.toString()),
+                    onBackgroundImageError: (a,b){
+
+                    },),
                   trailing: IconButton(
                     icon: const Icon(Icons.add_circle),
                     tooltip: "Aceptar",
@@ -349,9 +406,11 @@ class FormNewPublication extends StatelessWidget {
               "dateTime": "2022/11/12",
               "comment": publication.comment
             }).then((res) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ListPublications()),
+              int count = 0;
+              Navigator.popUntil(
+                context, (r){
+                return count++ == 2;
+              }
               );
             });
           },

@@ -21,6 +21,8 @@ class _AddPetState extends State<AddPet> {
   Pet pet = Pet.empty();
   _AddPetState(this.pet);
 
+  String appBarTitle = "Add Pet";
+
   double v_padding = 20;
   bool isEdit = false;
 
@@ -97,6 +99,7 @@ class _AddPetState extends State<AddPet> {
   void initState(){
     super.initState();
     if(pet.id != null){
+      appBarTitle = "Edit Pet";
       isEdit = true;
       typeController.text = pet.type.toString();
       nameController.text = pet.name.toString();
@@ -135,7 +138,7 @@ class _AddPetState extends State<AddPet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Add Pet")),
+        appBar: AppBar(title: Text(appBarTitle)),
         body: SafeArea(child: SingleChildScrollView(child:
         Column(
           children: [

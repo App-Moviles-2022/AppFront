@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:appfront/modulos/gestion-usuario/user-login/validate-login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../main.dart';
+import 'user-login/user-login-type.dart';
 import 'models/user.dart';
 
 class PerfilUsuario extends StatefulWidget {
@@ -46,6 +49,16 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     try{
       return Scaffold(
         appBar: AppBar(title: Text("Profile"), backgroundColor: Colors.indigo,automaticallyImplyLeading: false,),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            Modelo.logout();
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => AdoptmeStless()));
+          },
+
+          //icon: Icon(Icons.close),
+          icon: Icon(IconData(0xeaac, fontFamily: 'MaterialIcons')),
+          label: Text(""),
+        ),
         body: ListView(
           children: <Widget>[
             Container(
@@ -99,7 +112,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                             borderRadius: const BorderRadius.all(Radius.circular(60)),
                             border: Border.all(color: Colors.blueAccent, width: 2),
                             image: DecorationImage(
-                                image: NetworkImage(imageValidator ? user.urlToImageProfile.toString() : defaultProfileImage),
+                                image: NetworkImage(user['urlToImageProfile']),
                                 onError: (a,b){
 
                                   setState(() {
@@ -265,9 +278,10 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       ),
                     ),
                   ),
+                  Divider(),
                 ],
               ),
-            )
+            ),
           ],
         ),
       );

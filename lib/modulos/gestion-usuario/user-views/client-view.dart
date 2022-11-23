@@ -33,14 +33,41 @@ class _ClientViewState extends State<ClientView> {
     Notifications()
   ];
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Back'),
+            content: const Text('Are you sure you want to go back?\nIf you continue you will log out'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                }, //<-- SEE HERE
+                child: Text('No'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                }, //<-- SEE HERE
+                child: const Text('Yes'),
+              ),
+            ],
+          );
+        }) ??
+        false);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {print("gatooon");return _onWillPop();},
+        child: Scaffold(
       // appBar: AppBar(
       //   title: const Text("Flutter App"),
       // ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+        body: _widgetOptions.elementAt(_selectedIndex),
       // ListView(
       //   children: <Widget>[
       //     ElevatedButton(onPressed: (){
@@ -87,7 +114,7 @@ class _ClientViewState extends State<ClientView> {
       //     }, child: Text("Mis Mascotas"))
       //   ],
       // ),
-      bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.indigoAccent,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "My Profile", backgroundColor: Colors.indigoAccent),
@@ -99,6 +126,11 @@ class _ClientViewState extends State<ClientView> {
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
       ),
-    );
+    ),
+        )
+      ;
   }
+
+
+
 }

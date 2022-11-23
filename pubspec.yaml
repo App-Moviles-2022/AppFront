@@ -50,7 +50,10 @@ dependencies:
   path_provider: ^2.0.0
   rflutter_alert: ^1.0.3
   intl: ^0.17.0
-
+  open_street_map_search_and_pick: ^0.0.15
+  location: ^4.4.0
+  syncfusion_flutter_maps: ^20.3.58
+  flutter_html: ^3.0.0-alpha.3
 
 dev_dependencies:
   image_picker: ^0.8.4

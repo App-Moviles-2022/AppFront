@@ -261,9 +261,13 @@ class Modelo {
     else{
       return false;
   }
-
 }
-
+  static void logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    // set value
+    await prefs.remove('userId');
+    await prefs.remove('user');
+  }
 }
 
 Future<http.Response> postPublication() async{

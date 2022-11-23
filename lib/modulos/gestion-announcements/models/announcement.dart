@@ -7,6 +7,8 @@ class Announcement{
   final int discount;
   final String urlToImage;
   final bool promoted;
+  final String latitude;
+  final String longitude;
   Announcement({
     required this.id,
     required this.dateTime,
@@ -15,5 +17,7 @@ class Announcement{
     required this.discount,
     required this.title,
     required this.urlToImage,
+    required this.latitude,
+    required this.longitude,
   });
 }

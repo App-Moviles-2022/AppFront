@@ -56,9 +56,32 @@ class _ListPublicationsState extends State<ListPublications> {
   }
 
   void setStateNotifications(AdoptionRequest adoptionRequest) {
+    Pet pet;
     listPublicationsService
         .enviarSolicitud(adoptionRequest)
         .then((value) => {
+
+          listPublicationsService.getPetById(adoptionRequest.petId).then((responsePet) => {
+            setState(() {
+              String petBody = utf8.decode(responsePet.bodyBytes);
+              pet = Pet(
+                  jsonDecode(petBody)["id"],
+                  jsonDecode(petBody)["type"],
+                  jsonDecode(petBody)["name"],
+                  jsonDecode(petBody)["attention"],
+                  jsonDecode(petBody)["age"],
+                  jsonDecode(petBody)["race"],
+                  jsonDecode(petBody)["userId"],
+                  jsonDecode(petBody)["publicationId"],
+                  jsonDecode(petBody)["gender"],
+                  jsonDecode(petBody)["urlToImage"],
+                  jsonDecode(petBody)["isAdopted"],
+                  true);
+              listPublicationsService.updatePet(pet).then((val) => {
+                print("ACTUALIZACIÓN DEL PET EXITOSA")
+              });
+            }),
+          }),
       setState(() {
         publications = publications;
       })

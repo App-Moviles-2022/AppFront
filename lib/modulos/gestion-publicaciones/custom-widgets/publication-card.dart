@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../gestion-pet/models/pet.dart';
 import '../list-publications.service.dart';
 
 class CardPublication extends StatelessWidget {
@@ -79,12 +80,12 @@ _openPopup(
 
   Alert(
       context: context,
-      title: "Enviar Solicitud de adopción",
+      title: "Editar mascota",
       content: Column(
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              labelText: 'Envie un mensaje al dueño',
+              labelText: 'comentario',
             ),
             controller: TextEditingController(text: publication.comment),
             onChanged: (comment) => {publication.comment = comment},
@@ -95,10 +96,11 @@ _openPopup(
         DialogButton(
           // onPressed: ()=>{print(publication.name)},
           onPressed: () => {
+            Navigator.of(context, rootNavigator: true).pop(),
             setStatePublications(publication, index)
           },
           child: Text(
-            "Adoptar!",
+            "Enviar",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
@@ -113,7 +115,7 @@ _openPopupAdoptar(
   setStateNotifications = _setStateNotifications;
   setStatePublications = _setStatePublications;
   Publication publication = _publication;
-  AdoptionRequest adoptionRequest = AdoptionRequest(userId, publication.userId, publication.publicationId, "", 1);
+  AdoptionRequest adoptionRequest = AdoptionRequest(userId, publication.userId, publication.publicationId, "", 1, publication.petId);
 
   Alert(
       context: context,

@@ -19,6 +19,7 @@ class AdoptionRequest {
   int publicationId;
   String message;
   int status;
+  int petId;
 
-  AdoptionRequest(this.userIdFrom, this.userIdAt, this.publicationId, this.message, this.status);
+  AdoptionRequest(this.userIdFrom, this.userIdAt, this.publicationId, this.message, this.status, this.petId);
 }

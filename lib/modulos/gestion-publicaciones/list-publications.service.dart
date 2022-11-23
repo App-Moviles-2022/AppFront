@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:appfront/modulos/gestion-pet/models/pet.dart';
 import 'package:appfront/modulos/gestion-publicaciones/models/publication.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,6 +17,33 @@ class ListPublicationsService{
 
   Future<http.Response> getPublicationsByUserId(id) async{
     final response = await http.get(Uri.parse('https://timexp.xempre.com/api/v1/publications/petsinfo/$id'));
+    return response;
+  }
+
+  Future<http.Response> getPetById(id) async{
+    final response = await http.get(Uri.parse('https://timexp.xempre.com/api/v1/pets/$id'));
+    return response;
+  }
+  Future<http.Response> updatePet(Pet pet) async{
+    final response = await http.put(Uri.parse("https://timexp.xempre.com/api/v1/pets/${pet.id}"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(
+            {
+          "type": pet.type,
+          "name": pet.name,
+          "attention": pet.attention,
+          "age": pet.age,
+          "race": pet.race,
+          "isAdopted": pet.isAdopted,
+          "userId": pet.userId,
+          "isPublished": pet.isPublished,
+          "gender": pet.gender,
+          "urlToImage": pet.urlToImage
+        }),
+        encoding: utf8
+    );
     return response;
   }
 

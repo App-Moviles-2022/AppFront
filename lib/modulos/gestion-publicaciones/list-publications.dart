@@ -406,9 +406,11 @@ class FormNewPublication extends StatelessWidget {
               "dateTime": "2022/11/12",
               "comment": publication.comment
             }).then((res) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ListPublications()),
+              int count = 0;
+              Navigator.popUntil(
+                context, (r){
+                return count++ == 2;
+              }
               );
             });
           },

@@ -4,6 +4,7 @@ import 'package:appfront/modulos/gestion-usuario/user-login/validate-login.dart'
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../main.dart';
 import 'login-user.dart';
 import 'models/user.dart';
 
@@ -51,7 +52,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             Modelo.logout();
-            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const TypeUserLogin()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => AdoptmeStless()));
           },
           icon: Icon(Icons.close),
           label: Text("Logout"),

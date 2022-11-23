@@ -106,7 +106,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         void func() async{
                           bool validate = await Modelo.iniciarSesion(emailController.text, passwordController.text);
                           if(validate==true)
-                          {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientView()));}
+                          {
+                            print("ACA ESTOY");
+                            Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (BuildContext context) => ClientView()),
+                                ModalRoute.withName('/'),
+                          );}
                         }
                         func();
 

@@ -157,6 +157,7 @@ class _ListPublicationsState extends State<ListPublications> {
     // DBHelper helper = DBHelper();
     // helper.testDB();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.from(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
       home: DefaultTabController(

@@ -26,7 +26,7 @@ class PerfilUsuario extends StatefulWidget {
 class _PerfilUsuarioState extends State<PerfilUsuario> {
 
   var user;
-  bool imageValidator = false;
+  bool imageValidator = true;
   String defaultProfileImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
   Future get_user() async{
@@ -46,7 +46,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
       });
     });
 
-    try{
+    // try{
       return Scaffold(
         appBar: AppBar(title: Text("Profile"), backgroundColor: Colors.indigo,automaticallyImplyLeading: false,),
         floatingActionButton: FloatingActionButton.extended(
@@ -112,7 +112,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                             borderRadius: const BorderRadius.all(Radius.circular(60)),
                             border: Border.all(color: Colors.blueAccent, width: 2),
                             image: DecorationImage(
-                                image: NetworkImage(user['urlToImageProfile']),
+                                image: NetworkImage(imageValidator?user['urlToImageProfile'].toString():defaultProfileImage),
                                 onError: (a,b){
 
                                   setState(() {
@@ -285,10 +285,10 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
           ],
         ),
       );
-    }
-    catch (e){
-      return Container();
-    }
+    // }
+    // catch (e){
+    //   return Container();
+    // }
   }
 }
 

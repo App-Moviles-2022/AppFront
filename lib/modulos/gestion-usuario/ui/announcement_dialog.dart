@@ -96,18 +96,19 @@ class AnnouncementDialog{
 
   Widget buildDialog(BuildContext context,Announcement announcement, bool isNew ){
 
-    var gato = _currentLocation().then((value) {latitude=value?.latitude as double; longitude=value?.longitude as double;});
-    print(gato);
-    print("PERRRRRRRO");
+
+
 
     if(!isNew){
       txtTitle.text=announcement.title;
       txtDate.text=announcement.dateTime;
       txtDescription.text=announcement.description;
       txtUrlImage.text=announcement.urlToImage;
-
+      latitude = double.parse(announcement.latitude);
+      longitude = double.parse(announcement.longitude);
     }
     else{
+      _currentLocation().then((value) {latitude=value?.latitude as double; longitude=value?.longitude as double;});
       txtTitle.text="";
       txtDescription.text="";
       txtUrlImage.text="";

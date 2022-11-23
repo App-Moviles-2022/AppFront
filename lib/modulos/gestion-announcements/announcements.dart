@@ -88,6 +88,7 @@ class _AnnouncementsState extends State<Announcements> {
           appBar: AppBar(
             title: Text("Announcements"),
             bottom: TabBar(
+              onTap: (a){reloadAdds();},
             tabs: [
               Tab(icon: Icon(Icons.announcement),text: "All Announcements",),
               Tab(icon: Icon(Icons.person_pin_sharp),text: "My Announcements")

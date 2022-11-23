@@ -87,20 +87,23 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
     reloadAnnouncements();
   }
   void addAnnouncement(){
-    showDialog(context: context, builder: (BuildContext context)=>
-        dialog!.buildDialog(context, Announcement(
-            dateTime: '',
-            description: '',
-            promoted: false,
-            title: '',
-            id: 0,
-            discount: 0,
-            urlToImage: '',
+    showDialog(context: context, builder: (BuildContext context){
+      AnnouncementDialog dialog = new AnnouncementDialog();
+      return dialog!.buildDialog(context, Announcement(
+          dateTime: '',
+          description: '',
+          promoted: false,
+          title: '',
+          id: 0,
+          discount: 0,
+          urlToImage: '',
           latitude: "0",
           longitude: "0"
-        ),
-            true)
-    );
+      ),
+          true);
+    }
+
+    ).then((value) => reloadAnnouncements());
   }
 
   buildAnnouncements() {
@@ -160,15 +163,17 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
               ElevatedButton.icon(
                   icon: Icon(Icons.edit),
                   onPressed: (){
-                    showDialog(context: context, builder: (BuildContext context)=>
-                        dialog!.buildDialog(context, announcement, false)
-                    );
+                    showDialog(context: context, builder: (BuildContext context){
+                      AnnouncementDialog dialog = AnnouncementDialog();
+                      return dialog!.buildDialog(context, announcement, false);
+                    }
+                    ).then((value) => reloadAnnouncements());
                   }, label: Text('Edit'),
               ),
               ElevatedButton.icon(
                 icon: Icon(Icons.delete),
                 onPressed: (){
-                  deleteAnnouncement(announcement.id);
+                  deleteAnnouncement(announcement.id).then((value) => reloadAnnouncements());
                 }, label: Text('Delete'),
               ),
             ],

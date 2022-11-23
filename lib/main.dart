@@ -15,7 +15,6 @@ class AdoptmeStless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: "Flutter App",
       theme: ThemeData(
           primarySwatch:Colors.indigo

@@ -1,16 +1,21 @@
-import 'package:appfront/modulos/gestion-usuario/user-register/vet-register.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:appfront/modulos/gestion-usuario/user-register/client-register.dart';
 import 'package:get/get.dart';
 import 'package:appfront/modulos/gestion-usuario/user-login/login-controller.dart';
-import 'package:appfront/modulos/gestion-usuario/user-register/provider-register.dart';
-import 'package:appfront/modulos/gestion-usuario/user-views/provider-view.dart';
+import 'package:appfront/modulos/gestion-usuario/user-register/client-register.dart';
+import 'package:appfront/modulos/gestion-usuario/user-views/client-view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:appfront/modulos/gestion-usuario/user-login/validate-login.dart';
+import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/client-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/client-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/models/user-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/models/user-accept-terms.dart';
+import 'package:appfront/modulos/gestion-usuario/models/index.dart' as globals;
+import 'package:appfront/modulos/gestion-usuario/user-register/provider-register.dart';
 class ProviderLogin extends StatelessWidget {
   const ProviderLogin({Key? key}) : super(key: key);
   static const String _title = 'AdoptMe App';
@@ -18,6 +23,7 @@ class ProviderLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
@@ -107,7 +113,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         void func() async{
                           bool validate = await Modelo.iniciarSesion(emailController.text, passwordController.text);
                           if(validate==true)
-                          {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProviderView()));}
+                          {globals.termsConditions=false;
+                          print("ACA ESTOY");
+                          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (BuildContext context) => ClientView()),
+                            ModalRoute.withName('/'),
+                          );}
                         }
                         func();
 
@@ -124,14 +135,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                   Row(
                     children: <Widget>[
-                      const Text('Does not have account?'),
+                      const Text('Do not have an account?'),
                       TextButton(
                         child: const Text(
                           'Sign in',
                           style: TextStyle(fontSize: 20),
                         ),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProviderRegister()));
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RegisterPageProvider()));
 
                         },
                       )

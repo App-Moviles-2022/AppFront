@@ -1,23 +1,29 @@
-import 'package:appfront/modulos/gestion-usuario/user-register/vet-register.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:appfront/modulos/gestion-usuario/user-register/client-register.dart';
 import 'package:get/get.dart';
 import 'package:appfront/modulos/gestion-usuario/user-login/login-controller.dart';
 import 'package:appfront/modulos/gestion-usuario/user-register/client-register.dart';
-import 'package:appfront/modulos/gestion-usuario/user-views/vet-view.dart';
+import 'package:appfront/modulos/gestion-usuario/user-views/client-view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:appfront/modulos/gestion-usuario/user-login/validate-login.dart';
+import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/client-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/client-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/models/user-terms-conditions.dart';
+import 'package:appfront/modulos/gestion-usuario/models/user-accept-terms.dart';
+import 'package:appfront/modulos/gestion-usuario/models/index.dart' as globals;
+import 'package:appfront/modulos/gestion-usuario/user-register/vet-register.dart';
 class VetLogin extends StatelessWidget {
   const VetLogin({Key? key}) : super(key: key);
-  static const String _title = 'AdoptMe App';
+  static const String _title = 'AdoptMe ya';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
@@ -107,7 +113,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         void func() async{
                           bool validate = await Modelo.iniciarSesion(emailController.text, passwordController.text);
                           if(validate==true)
-                          {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => VetView()));}
+                          {globals.termsConditions=false;
+                          print("ACA ESTOY");
+                          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (BuildContext context) => ClientView()),
+                            ModalRoute.withName('/'),
+                          );}
                         }
                         func();
 
@@ -124,14 +135,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                   Row(
                     children: <Widget>[
-                      const Text('Does not have account?'),
+                      const Text('Do not have an account?'),
                       TextButton(
                         child: const Text(
                           'Sign in',
                           style: TextStyle(fontSize: 20),
                         ),
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => VetRegister()));
+                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RegisterPageVet()));
 
                         },
                       )

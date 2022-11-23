@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../main.dart';
-import 'login-user.dart';
+import 'user-login/user-login-type.dart';
 import 'models/user.dart';
 
 class PerfilUsuario extends StatefulWidget {
@@ -54,8 +54,10 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
             Modelo.logout();
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => AdoptmeStless()));
           },
-          icon: Icon(Icons.close),
-          label: Text("Logout"),
+
+          //icon: Icon(Icons.close),
+          icon: Icon(IconData(0xeaac, fontFamily: 'MaterialIcons')),
+          label: Text(""),
         ),
         body: ListView(
           children: <Widget>[
@@ -110,7 +112,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                             borderRadius: const BorderRadius.all(Radius.circular(60)),
                             border: Border.all(color: Colors.blueAccent, width: 2),
                             image: DecorationImage(
-                                image: NetworkImage(imageValidator ? user.urlToImageProfile.toString() : defaultProfileImage),
+                                image: NetworkImage(user['urlToImageProfile']),
                                 onError: (a,b){
 
                                   setState(() {

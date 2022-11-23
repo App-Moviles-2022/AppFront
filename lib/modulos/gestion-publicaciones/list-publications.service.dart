@@ -4,6 +4,11 @@ import 'package:appfront/modulos/gestion-publicaciones/models/publication.dart';
 import 'package:http/http.dart' as http;
 
 class ListPublicationsService{
+  Future<http.Response> getPublicationsPetsInfo() async{
+    final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/publications/petsinfo"));
+    return response;
+  }
+
   Future<http.Response> getPetsByUserId(userId) async{
     final response = await http.get(Uri.parse("https://timexp.xempre.com/api/v1/pets/userid=$userId"));
     return response;
@@ -24,6 +29,8 @@ class ListPublicationsService{
     );
     return response;
   }
+
+
 
   Future<http.Response> deletePublication(id) async{
     final response = await http.delete(Uri.parse("https://timexp.xempre.com/api/v1/publications/$id"),
@@ -57,6 +64,23 @@ class ListPublicationsService{
     print(jsonEncode(data));
     // String body = utf8.decode(response.bodyBytes);
     // print(jsonDecode(body));
+    return response;
+  }
+
+  Future<http.Response> enviarSolicitud(AdoptionRequest solicitud) async{
+    final response = await http.post(Uri.parse("https://timexp.xempre.com/api/v1/adoptionsrequests"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "message": solicitud.message,
+          "status": solicitud.status,
+          "userIdFrom": solicitud.userIdFrom,
+          "userIdAt": solicitud.userIdAt,
+          "publicationId": solicitud.publicationId
+        }),
+        encoding: utf8
+    );
     return response;
   }
 

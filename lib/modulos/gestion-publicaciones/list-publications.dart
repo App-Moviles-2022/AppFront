@@ -24,6 +24,7 @@ class _ListPublicationsState extends State<ListPublications> {
   int userId = 0;
   late http.Response temp;
   List<Publication> publications = [];
+  List<Publication> allPublications = [];
   List<Pet> pets = [];
 
   void callback(publication, index) {
@@ -52,6 +53,16 @@ class _ListPublicationsState extends State<ListPublications> {
                 publications = publications;
               })
             });
+  }
+
+  void setStateNotifications(AdoptionRequest adoptionRequest) {
+    listPublicationsService
+        .enviarSolicitud(adoptionRequest)
+        .then((value) => {
+      setState(() {
+        publications = publications;
+      })
+    });
   }
 
   @override
@@ -96,7 +107,25 @@ class _ListPublicationsState extends State<ListPublications> {
                         element['isPublished']));
                   }
                 }),
-              })
+              }),
+      listPublicationsService
+          .getPublicationsPetsInfo()
+          .then((value) => {
+        setState(() {
+          String body = utf8.decode(value.bodyBytes);
+          for (var element in jsonDecode(body)) {
+            allPublications.add(Publication(
+                element['publicationId'],
+                element['petId'],
+                element['userId'],
+                element['type'],
+                element['image'],
+                element['name'],
+                element['comment']));
+          }
+        }),
+      }),
+
         });
   }
 
@@ -122,10 +151,10 @@ class _ListPublicationsState extends State<ListPublications> {
             body: TabBarView(
               children: [
                 ListView.builder(
-                  itemCount: publications.length,
+                  itemCount: allPublications.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return CardPublication(publications[index], index, callback,
-                        setStatePublications);
+                    return CardPublicationGeneral(allPublications[index], index, callback,
+                        setStatePublications,setStateNotifications, userId);
                   },
                 ),
                 ListView.builder(

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../list-publications.service.dart';
 
 class CardPublication extends StatelessWidget {
+
   Function callback;
   Function setStatePublications;
   Publication publication;
@@ -75,88 +76,135 @@ _openPopup(
   Function setStatePublications;
   setStatePublications = _setStatePublications;
   Publication publication = _publication;
-  // final prefs = await SharedPreferences.getInstance();
-  // final counter = prefs.getInt('userId') ?? 0;
-  // late ListPublicationsService listPublicationsService = ListPublicationsService();
 
   Alert(
       context: context,
-      title: "Editar Pet",
+      title: "Enviar Solicitud de adopción",
       content: Column(
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              labelText: 'comment',
+              labelText: 'Envie un mensaje al dueño',
             ),
             controller: TextEditingController(text: publication.comment),
             onChanged: (comment) => {publication.comment = comment},
           ),
-          // TextField(
-          //   decoration: InputDecoration(
-          //     labelText: 'urlToImage',
-          //   ),
-          //   controller: TextEditingController(text: publication.image),
-          //   onChanged: (image)=>{publication.image=image},
-          // ),
         ],
       ),
       buttons: [
         DialogButton(
           // onPressed: ()=>{print(publication.name)},
-          onPressed: () => {setStatePublications(publication, index)},
+          onPressed: () => {
+            setStatePublications(publication, index)
+          },
           child: Text(
-            "Actualizar",
+            "Adoptar!",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
       ]).show();
 
-  // _openPopup(context, Publication _publication, int index, setStatePublications) {
-  //   Publication publication = _publication;
-  //   Alert(
-  //       context: context,
-  //       title: "Editar Pet",
-  //       content: Column(
-  //         children: <Widget>[
-  //           TextField(
-  //             decoration: InputDecoration(
-  //               labelText: 'name',
-  //             ),
-  //             controller: TextEditingController(text: publication.name),
-  //             onChanged: (name)=>{publication.name=name},
-  //           ),
-  //           TextField(
-  //             decoration: InputDecoration(
-  //               labelText: 'urlToImage',
-  //             ),
-  //             controller: TextEditingController(text: publication.image),
-  //             onChanged: (image)=>{publication.image=image},
-  //           ),
-  //         ],
-  //       ),
-  //       buttons: [
-  //         DialogButton(
-  //           // onPressed: ()=>{print(publication.name)},
-  //           onPressed: () => {
-  //             listPublicationsService.updatePublication(publication.petId, {
-  //               "name": publication.name,
-  //               "urlToImage": publication.image,
-  //               "type": publication.type,
-  //               "attention": "string",
-  //               "race": "string",
-  //               "userId": publication.userId
-  //           }).then((res){
-  //             publication.name = publication.name;
-  //             publication.image = publication.image;
-  //             setState(() {
-  //               publications = publications;
-  //             }
-  //             ); }) } ,
-  //           child: Text(
-  //             "Actualizar",
-  //             style: TextStyle(color: Colors.white, fontSize: 20),
-  //           ),
-  //         )
-  //       ]).show();
-  // }
 }
+
+_openPopupAdoptar(
+    context, Publication _publication, int index, int userId,  _setStatePublications, _setStateNotifications) async {
+  Function setStatePublications;
+  Function setStateNotifications;
+  setStateNotifications = _setStateNotifications;
+  setStatePublications = _setStatePublications;
+  Publication publication = _publication;
+  AdoptionRequest adoptionRequest = AdoptionRequest(userId, publication.userId, publication.publicationId, "", 1);
+
+  Alert(
+      context: context,
+      title: "Enviar Solicitud de adopción",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Envie un mensaje al dueño',
+            ),
+            controller: TextEditingController(text: adoptionRequest.message),
+            onChanged: (message) => {adoptionRequest.message = message},
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          // onPressed: ()=>{print(publication.name)},
+          onPressed: () => {
+            Navigator.of(context, rootNavigator: true).pop(),
+            setStateNotifications(adoptionRequest)
+          },
+          child: Text(
+            "Enviar",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        )
+      ]).show();
+
+}
+
+
+
+class CardPublicationGeneral extends StatelessWidget {
+  Function callback;
+  Function setStatePublications;
+  Function setStateNotifications;
+  Publication publication;
+  int index;
+  int userId;
+  // final prefs = await SharedPreferences.getInstance();
+  // final counter = prefs.getInt('userId') ?? 0;
+  CardPublicationGeneral(
+      this.publication, this.index, this.callback, this.setStatePublications, this.setStateNotifications, this.userId,
+      {super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.indigo,
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: Ink.image(
+              image: NetworkImage(publication.image),
+              height: 200,
+              fit: BoxFit.cover,
+            ),
+          ),
+          padding(Text(
+            publication.comment,
+            style: const TextStyle(
+                fontSize: 18.0,
+                fontFamily: "Roboto",
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          )),
+          Row(
+            children: <Widget>[
+              padding(
+                (userId == publication.userId)?Text(''):
+                ElevatedButton.icon(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    _openPopupAdoptar(
+                        context, publication, index, userId, setStatePublications, setStateNotifications);
+                  },
+
+                  label: Text('Adoptar'),
+                ),
+              ),
+
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget padding(Widget widget) {
+    return Padding(padding: const EdgeInsets.all(7.0), child: widget);
+  }
+}
+
+

@@ -54,6 +54,7 @@ dependencies:
   location: ^4.4.0
   syncfusion_flutter_maps: ^20.3.58
   flutter_html: ^3.0.0-alpha.3
+  flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:
   image_picker: ^0.8.4
@@ -84,6 +85,10 @@ flutter:
   assets:
     - img/
     - assets/img/
+flutter_icons:
+  image_path: "assets/img/icon.png"
+  android: true
+  ios: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:

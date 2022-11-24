@@ -165,20 +165,20 @@ class _ListPublicationsState extends State<ListPublications> {
             ),
             body: TabBarView(
               children: [
-                ListView.builder(
+                RefreshIndicator(child: ListView.builder(
                   itemCount: allPublications.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CardPublicationGeneral(allPublications[index], index, callback,
                         setStatePublications,setStateNotifications, userId);
                   },
-                ),
-                ListView.builder(
+                ), onRefresh: ()async{await loadData();}),
+                RefreshIndicator(child: ListView.builder(
                   itemCount: publications.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CardPublication(publications[index], index, callback,
                         setStatePublications);
                   },
-                ),
+                ), onRefresh: ()async{await loadData();})
               ],
             ),
             floatingActionButton: FloatingActionButton(
@@ -223,13 +223,17 @@ class _ListPetsState extends State<ListPetsState> {
     return counter;
   }
 
+  List<bool> imageValidator = [];
+  String defaultPetImage = "https://img.freepik.com/vector-gratis/pata-diseno-logotipo-mascota-vector-negocio-tienda-animales_53876-136741.jpg?w=2000";
 
   Future<void> listPets() async {
     int userId = await retrieveUser();
     http.Response publications = await listPublicationsService.getPetsByUserId(userId);
     setState(() {
       String body = utf8.decode(publications.bodyBytes);
+      imageValidator = [];
       for (var element in jsonDecode(body)) {
+        imageValidator.add(true);
         pets.add(Pet(
             element['id'],
             element['type'],
@@ -253,12 +257,11 @@ class _ListPetsState extends State<ListPetsState> {
     listPets();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Second Route'),
+        title: Text('Select Pet'),
       ),
       body: Column(
         children: <Widget>[
@@ -269,8 +272,11 @@ class _ListPetsState extends State<ListPetsState> {
                 return padding(ListTile(
                   title: Text(pets[index].name.toString()),
                   leading: CircleAvatar(backgroundImage:
-                  NetworkImage(pets[index].urlToImage.toString()),
+                  NetworkImage(imageValidator[index]?pets[index].urlToImage.toString():defaultPetImage),
                     onBackgroundImageError: (a,b){
+                    setState(() {
+                      imageValidator[index] = false;
+                    });
 
                     },),
                   trailing: IconButton(

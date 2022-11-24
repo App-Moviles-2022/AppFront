@@ -36,7 +36,7 @@ class _TypeUserLoginState extends State<TypeUserLogin> {
                                       backgroundColor: Colors.lightBlue[900],
                                       radius: 108,
                                       child: const CircleAvatar(
-                                        backgroundImage: AssetImage('img/owners.jpg'), //NetworkImage
+                                        backgroundImage: AssetImage('assets/img/owners.jpg'), //NetworkImage
                                         radius: 100,
                                       ), //CircleAvatar
                                     ), //CircleAvatar
@@ -130,7 +130,7 @@ class _TypeUserLoginState extends State<TypeUserLogin> {
                                       backgroundColor: Colors.lightBlue[900],
                                       radius: 108,
                                       child: const CircleAvatar(
-                                        backgroundImage: AssetImage('img/veterinario.jpg'),
+                                        backgroundImage: AssetImage('assets/img/veterinario.jpg'),
                                         radius: 100,
                                       ), //CircleAvatar
                                     ), //CircleAvatar
@@ -224,7 +224,7 @@ class _TypeUserLoginState extends State<TypeUserLogin> {
                                       backgroundColor: Colors.lightBlue[900],
                                       radius: 108,
                                       child: const CircleAvatar(
-                                        backgroundImage: AssetImage('img/providers.jpg'),
+                                        backgroundImage: AssetImage('assets/img/providers.jpg'),
                                         radius: 100,
                                       ), //CircleAvatar
                                     ), //CircleAvatar

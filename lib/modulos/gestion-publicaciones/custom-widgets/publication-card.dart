@@ -6,16 +6,41 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../gestion-pet/models/pet.dart';
 import '../list-publications.service.dart';
 
-class CardPublication extends StatelessWidget {
+class CardPublication extends StatefulWidget {
+  // const CardPublication({Key? key}) : super(key: key);
 
-  Function callback;
-  Function setStatePublications;
-  Publication publication;
-  int index;
+  late Function callback;
+  late Function setStatePublications;
+  late Publication publication;
+  late int index;
 
   CardPublication(
-      this.publication, this.index, this.callback, this.setStatePublications,
-      {super.key});
+      this.publication, this.index, this.callback, this.setStatePublications,);
+
+  @override
+  State<CardPublication> createState() => _CardPublicationState(this.publication, this.index, this.callback, this.setStatePublications);
+}
+
+// class _CardPublicationState extends State<CardPublication> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
+
+
+class _CardPublicationState extends State<CardPublication> {
+
+  late Function callback;
+  late Function setStatePublications;
+  late Publication publication;
+  late int index;
+  bool imageValidator = true;
+  String defaultPetImage = "https://img.freepik.com/vector-gratis/pata-diseno-logotipo-mascota-vector-negocio-tienda-animales_53876-136741.jpg?w=2000";
+
+
+  _CardPublicationState(
+      this.publication, this.index, this.callback, this.setStatePublications,);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -24,7 +49,12 @@ class CardPublication extends StatelessWidget {
         children: <Widget>[
           Container(
             child: Ink.image(
-              image: NetworkImage(publication.image),
+              image: NetworkImage(imageValidator?publication.image:defaultPetImage),
+              onImageError: (a,b){
+                setState(() {
+                  imageValidator = false;
+                });
+              },
               height: 200,
               fit: BoxFit.cover,
             ),
@@ -147,20 +177,46 @@ _openPopupAdoptar(
 
 }
 
+class CardPublicationGeneral extends StatefulWidget {
+  // const CardPublicationGeneral({Key? key}) : super(key: key);
 
+  late Function callback;
+  late Function setStatePublications;
+  late Function setStateNotifications;
+  late Publication publication;
+  late int index;
+  late int userId;
 
-class CardPublicationGeneral extends StatelessWidget {
-  Function callback;
-  Function setStatePublications;
-  Function setStateNotifications;
-  Publication publication;
-  int index;
-  int userId;
-  // final prefs = await SharedPreferences.getInstance();
-  // final counter = prefs.getInt('userId') ?? 0;
   CardPublicationGeneral(
       this.publication, this.index, this.callback, this.setStatePublications, this.setStateNotifications, this.userId,
-      {super.key});
+      );
+
+  @override
+  State<CardPublicationGeneral> createState() => _CardPublicationGeneralState(this.publication, this.index, this.callback, this.setStatePublications, this.setStateNotifications, this.userId,);
+}
+
+// class _CardPublicationGeneralState extends State<CardPublicationGeneral> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
+
+
+class _CardPublicationGeneralState extends State<CardPublicationGeneral> {
+  late Function callback;
+  late Function setStatePublications;
+  late Function setStateNotifications;
+  late Publication publication;
+  late int index;
+  late int userId;
+  bool imageValidator = true;
+  String defaultPetImage = "https://img.freepik.com/vector-gratis/pata-diseno-logotipo-mascota-vector-negocio-tienda-animales_53876-136741.jpg?w=2000";
+  // final prefs = await SharedPreferences.getInstance();
+  // final counter = prefs.getInt('userId') ?? 0;
+  _CardPublicationGeneralState(
+      this.publication, this.index, this.callback, this.setStatePublications, this.setStateNotifications, this.userId,
+      );
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -169,7 +225,13 @@ class CardPublicationGeneral extends StatelessWidget {
         children: <Widget>[
           Container(
             child: Ink.image(
-              image: NetworkImage(publication.image),
+              image: NetworkImage(imageValidator?publication.image:defaultPetImage),
+              onImageError: (a,b){
+                setState(() {
+                  imageValidator = false;
+                });
+
+              },
               height: 200,
               fit: BoxFit.cover,
             ),

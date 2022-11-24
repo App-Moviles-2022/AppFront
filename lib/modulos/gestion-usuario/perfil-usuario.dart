@@ -46,7 +46,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
       });
     });
 
-    // try{
+    try{
       return Scaffold(
         appBar: AppBar(title: Text("Profile"), backgroundColor: Colors.indigo,automaticallyImplyLeading: false,),
         floatingActionButton: FloatingActionButton.extended(
@@ -285,10 +285,10 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
           ],
         ),
       );
-    // }
-    // catch (e){
-    //   return Container();
-    // }
+    }
+    catch (e){
+      return Container();
+    }
   }
 }
 

@@ -102,13 +102,14 @@ class ListPublicationsService{
         },
         body: jsonEncode({
           "message": solicitud.message,
-          "status": solicitud.status,
+          "status": 0,
           "userIdFrom": solicitud.userIdFrom,
           "userIdAt": solicitud.userIdAt,
           "publicationId": solicitud.publicationId
         }),
         encoding: utf8
     );
+
     return response;
   }
 

@@ -1,5 +1,4 @@
 import 'package:appfront/modulos/gestion-usuario/ui/dbUsers.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/provider-login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -8,14 +7,8 @@ import 'package:appfront/modulos/gestion-usuario/models/user-accept-terms.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:http/http.dart' as http;
-
 import 'package:appfront/modulos/gestion-usuario/models/index.dart' as globals;
-import 'package:appfront/modulos/gestion-notificaciones/list-notifications.dart';
 
-
-import 'package:appfront/modulos/gestion-usuario/user-register/client-register.dart';
-import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
 
 class ProviderTermsConditions extends StatefulWidget {
   const ProviderTermsConditions({Key? key}) : super(key: key);
@@ -35,12 +28,8 @@ class _ProviderTermsConditionsState extends State<ProviderTermsConditions> {
 
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getInt('userId') ?? 0;
-      String url = "https://timexp.xempre.com/api/v1/pets/userid=$userId";
-      final response = await http.get(
-        Uri.parse(url),
-        // headers: {'x-api-key': apiKey}
-      );
-      UserAcceptTermsList item = new UserAcceptTermsList(globals.index, userId);
+
+      UserAcceptTermsList item = UserAcceptTermsList(globals.index, userId);
       item.userId = userId;
       databaseuser.insertItem(item);
     }
@@ -49,12 +38,8 @@ class _ProviderTermsConditionsState extends State<ProviderTermsConditions> {
 
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getInt('userId') ?? 0;
-      String url = "https://timexp.xempre.com/api/v1/pets/userid=$userId";
-      final response = await http.get(
-        Uri.parse(url),
-        // headers: {'x-api-key': apiKey}
-      );
-      UserAcceptTermsList item = new UserAcceptTermsList(globals.index, userId);
+
+      UserAcceptTermsList item = UserAcceptTermsList(globals.index, userId);
       item.userId = userId;
       databaseuser.insertItem(item);
     }
@@ -164,48 +149,62 @@ class _ProviderTermsConditionsState extends State<ProviderTermsConditions> {
             ),
             SizedBox(width: 120,
 
+              child: Container(
+                margin: const EdgeInsets.only(top: 10.0, bottom: 50.0),
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
 
-              child: ElevatedButton(
+                      onPressed: () {
+                        globals.termsConditions = true;
+                        getUser();
+                        Navigator.pop(context, true);
+                      },
+                      style: ButtonStyle(
+                          alignment: Alignment.center,
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.blue)),
+                      child: Padding(
 
-                onPressed: () {
-                  globals.termsConditions=true;
-                  getUser();
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProviderLogin()));
-                },
-                style: ButtonStyle(
-                    alignment: Alignment.center,
-                    backgroundColor:
-                    MaterialStateProperty.all(Colors.blue)),
-                child: Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: Row(
 
-                  padding: const EdgeInsets.all(4),
-                  child: Row(
+                          children: const [
+                            Icon(Icons.check),
+                            Text('Aceptar')
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 50),
+                    ElevatedButton(
 
-                    children: const [
-                      Icon(Icons.touch_app),
-                      Text('Aceptar')
-                    ],
-                  ),
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Debe aceptar los términos y condiciones."),
+                        ));
+                      },
+                      style: ButtonStyle(
+                          alignment: Alignment.center,
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.red)),
+                      child: Padding(
+
+                        padding: const EdgeInsets.all(4),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.close),
+                            Text('Rechazar')
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            // RaisedButton is deprecated and should not be used
-            // Use ElevatedButton instead
-
-            // child: RaisedButton(
-            //   onPressed: () => null,
-            //   color: Colors.green,
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(4.0),
-            //     child: Row(
-            //       children: const [
-            //         Icon(Icons.touch_app),
-            //         Text('Visit'),
-            //       ],
-            //     ), //Row
-            //   ), //Padding
-            // ), //RaisedButton
-
           ],
         ),
       ),

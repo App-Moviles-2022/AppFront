@@ -36,8 +36,7 @@ class _TypeUserLoginState extends State<TypeUserLogin> {
                                       backgroundColor: Colors.lightBlue[900],
                                       radius: 108,
                                       child: const CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            "https://www.wearetesters.com/wp-content/uploads/2018/11/MASCOTAS.jpg"), //NetworkImage
+                                        backgroundImage: AssetImage('img/owners.jpg'), //NetworkImage
                                         radius: 100,
                                       ), //CircleAvatar
                                     ), //CircleAvatar
@@ -131,8 +130,7 @@ class _TypeUserLoginState extends State<TypeUserLogin> {
                                       backgroundColor: Colors.lightBlue[900],
                                       radius: 108,
                                       child: const CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            "https://papelmatic.com/wp-content/uploads/2019/09/papelmatic-higiene-profesional-limpieza-desinfeccion-clinicas-veterinarias-1200x900.jpg"), //NetworkImage
+                                        backgroundImage: AssetImage('img/veterinario.jpg'),
                                         radius: 100,
                                       ), //CircleAvatar
                                     ), //CircleAvatar
@@ -226,8 +224,7 @@ class _TypeUserLoginState extends State<TypeUserLogin> {
                                       backgroundColor: Colors.lightBlue[900],
                                       radius: 108,
                                       child: const CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            "https://gimnasiocaninocampestre.com/wp-content/uploads/2020/08/hotel-para-perros-gimnasio-canino-campestre-300x225.jpg"), //NetworkImage
+                                        backgroundImage: AssetImage('img/providers.jpg'),
                                         radius: 100,
                                       ), //CircleAvatar
                                     ), //CircleAvatar

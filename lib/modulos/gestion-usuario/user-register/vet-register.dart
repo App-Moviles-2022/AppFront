@@ -4,12 +4,9 @@ import 'package:appfront/modulos/gestion-usuario/user-login/vet-login.dart';
 import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/vet-terms-conditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:appfront/modulos/gestion-usuario/models/user.dart';
 import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/client-terms-conditions.dart';
 import 'package:appfront/modulos/gestion-usuario/models/index.dart' as globals;
 import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/terms-conditions-controller.dart';
 class RegisterPageVet extends StatefulWidget {
@@ -229,23 +226,17 @@ class _RegisterPageVetState extends State<RegisterPageVet> {
                           //ItemsScreen
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: <Widget>[
-                            Checkbox(value: false, onChanged: (v){
-                              if(name.text!=""&&
-                                  password.text!=""&&
-                                  lastName.text!=""&&
-                                  userNick.text!=""&&
-                                  ruc.text!=""&&
-                                  dni.text!=""&&
-                                  phone.text!=""&&
-                                  email.text!=""&&
-                                  urlToImageBackground.text!=""&&
-                                  urlToImageProfile.text!=""){
-                                register();
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => VetTermsConditions()));}
+                            Checkbox(value: isCheckedConditionsandTerms, onChanged: (v) {
+                              final result = Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const VetTermsConditions()));
+                              result.then((value) => {
+                                setState(() { isCheckedConditionsandTerms = value; })
+                              });
                             }),
                             Text("I Agree to the "),
                             InkWell(
-                              onTap: (){},
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const VetTermsConditions()));
+                              },
                               child: Text(
                                 "Terms of services ",
                                 style: TextStyle(
@@ -255,7 +246,9 @@ class _RegisterPageVetState extends State<RegisterPageVet> {
                             ),
                             Text("&"),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const VetTermsConditions()));
+                              },
                               child: Text(" Privacy Policy",
                                 style: TextStyle(
                                     color: Colors.blue[700],
@@ -271,7 +264,6 @@ class _RegisterPageVetState extends State<RegisterPageVet> {
                       ElevatedButton(
 
                           onPressed: () {
-                            init: TermsConditionsController();
                             _.createCount();
                             if(globals.termsConditions==true) {
 
@@ -279,7 +271,7 @@ class _RegisterPageVetState extends State<RegisterPageVet> {
                                   password.text!=""&&
                                   lastName.text!=""&&
                                   userNick.text!=""&&
-                                  ruc.text!=""&&
+                                  //ruc.text!=""&&
                                   dni.text!=""&&
                                   phone.text!=""&&
                                   email.text!=""&&
@@ -287,7 +279,7 @@ class _RegisterPageVetState extends State<RegisterPageVet> {
                                   urlToImageProfile.text!="") {
                                 register();
                                 Navigator.push(context, MaterialPageRoute(
-                                    builder: (BuildContext context) => VetLogin()));
+                                    builder: (BuildContext context) => ClientLogin()));
                               }
                             }
                           },
@@ -345,10 +337,7 @@ class _RegisterPageVetState extends State<RegisterPageVet> {
       showSnackBar("Ups hubo un error, intente de nuevo");
       return;
     }
-    final data = Map.from(jsonDecode(res.body));
-    final usuario = User.fromJson(data);
-    //await storage.write(key: 'refresh-token', value: usuario.refreshToken);
-    //await storage.write(key: 'access-token', value: usuario.refreshToken);
+
     Navigator.of(context).pushNamed('home');
   }
 

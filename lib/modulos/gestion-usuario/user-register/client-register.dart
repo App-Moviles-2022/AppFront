@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:appfront/modulos/gestion-usuario/models/user.dart';
 import 'package:appfront/modulos/gestion-usuario/user-login/client-login.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/client-terms-conditions.dart';
 import 'package:appfront/modulos/gestion-usuario/models/index.dart' as globals;
 import 'package:appfront/modulos/gestion-usuario/user-terms-conditions/terms-conditions-controller.dart';
@@ -227,23 +225,17 @@ class _RegisterPageClientState extends State<RegisterPageClient> {
                           //ItemsScreen
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: <Widget>[
-                            Checkbox(value: false, onChanged: (v){
-                              if(name.text!=""&&
-                                  password.text!=""&&
-                                  lastName.text!=""&&
-                                  userNick.text!=""&&
-                                  ruc.text!=""&&
-                                  dni.text!=""&&
-                                  phone.text!=""&&
-                                  email.text!=""&&
-                                  urlToImageBackground.text!=""&&
-                                  urlToImageProfile.text!=""){
-                                register();
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientTermsConditions()));}
+                            Checkbox(value: isCheckedConditionsandTerms, onChanged: (v) {
+                              final result = Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientTermsConditions()));
+                              result.then((value) => {
+                                setState(() { isCheckedConditionsandTerms = value; })
+                                 });
                             }),
                             Text("I Agree to the "),
                             InkWell(
-                              onTap: (){},
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientTermsConditions()));
+                              },
                               child: Text(
                                 "Terms of services ",
                                 style: TextStyle(
@@ -253,7 +245,9 @@ class _RegisterPageClientState extends State<RegisterPageClient> {
                             ),
                             Text("&"),
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ClientTermsConditions()));
+                              },
                               child: Text(" Privacy Policy",
                                 style: TextStyle(
                                     color: Colors.blue[700],
@@ -270,7 +264,6 @@ class _RegisterPageClientState extends State<RegisterPageClient> {
                       ElevatedButton(
 
                           onPressed: () {
-                            init: TermsConditionsController();
                             _.createCount();
                             if(globals.termsConditions==true) {
 
@@ -278,7 +271,7 @@ class _RegisterPageClientState extends State<RegisterPageClient> {
                                   password.text!=""&&
                                   lastName.text!=""&&
                                   userNick.text!=""&&
-                                  ruc.text!=""&&
+                                  //ruc.text!=""&&
                                   dni.text!=""&&
                                   phone.text!=""&&
                                   email.text!=""&&
@@ -344,10 +337,6 @@ class _RegisterPageClientState extends State<RegisterPageClient> {
       showSnackBar("Ups hubo un error, intente de nuevo");
       return;
     }
-    final data = Map.from(jsonDecode(res.body));
-    final usuario = User.fromJson(data);
-    //await storage.write(key: 'refresh-token', value: usuario.refreshToken);
-    //await storage.write(key: 'access-token', value: usuario.refreshToken);
     Navigator.of(context).pushNamed('home');
   }
 

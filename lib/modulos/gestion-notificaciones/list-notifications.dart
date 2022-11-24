@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:appfront/modulos/gestion-notificaciones/models/Notification.dart';
 import 'package:appfront/modulos/gestion-notificaciones/notifications.service.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/confirm-dialog.dart';
+
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -17,13 +19,20 @@ class _NotificationsState extends State<Notifications> {
   NotificationsService notificationsService = NotificationsService();
   List<AdoptionNotification> notifications = [];
 
+  int userId = 0;
+
   @override
   void initState(){
     super.initState();
     loadNotifications();
+    SharedPreferences.getInstance().then((pref) {
+      userId = pref.getInt('userId') ?? 0;
+      print(userId);
+    });
   }
 
   void loadNotifications() {
+
     notifications.clear();
     notificationsService.getAllNotificationsFrom().then((valueFrom) => {
       notificationsService.getAllNotificationsAt().then((valueAt) => {
@@ -89,7 +98,7 @@ class _NotificationsState extends State<Notifications> {
             child: ListTile(
               title: Text(notifications[index].message),
               leading: Image.network("https://cdn-icons-png.flaticon.com/512/147/147144.png"),
-              trailing: notifications[index].status == 0 ? Row(
+              trailing: notifications[index].status == 0 && notifications[index].userIdFrom != userId ? Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     IconButton(icon: const Icon(Icons.check_circle),

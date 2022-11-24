@@ -49,8 +49,8 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
       body: RefreshIndicator(child: buildAnnouncements(),onRefresh: ()async{await reloadAnnouncements();},),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.indigo,
-          child: const Icon(Icons.add,),
-          onPressed: addAnnouncement)
+          onPressed: addAnnouncement,
+          child: const Icon(Icons.add,))
 
     );
   }
@@ -88,8 +88,8 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
   }
   void addAnnouncement(){
     showDialog(context: context, builder: (BuildContext context){
-      AnnouncementDialog dialog = new AnnouncementDialog();
-      return dialog!.buildDialog(context, Announcement(
+      AnnouncementDialog dialog = AnnouncementDialog();
+      return dialog.buildDialog(context, Announcement(
           dateTime: '',
           description: '',
           promoted: false,
@@ -103,7 +103,11 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
           true);
     }
 
-    ).then((value) => reloadAnnouncements());
+    ).then((value) => {
+      setState(() {
+        reloadAnnouncements();
+      })
+    });
   }
 
   buildAnnouncements() {
@@ -145,27 +149,27 @@ class Manage_AnnouncementsState extends State<Manage_Announcements>{
               )
             ],
           ),
-          Text(announcement.title??"", style: TextStyle(
+          Text(announcement.title, style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.indigo,
             fontSize: 24,
           )),
           Padding(
-            padding: EdgeInsets.all(16).copyWith(bottom: 0),
+            padding: const EdgeInsets.all(16).copyWith(bottom: 0),
             child: Text(announcement.description,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
           ButtonBar(
             alignment: MainAxisAlignment.start,
-            buttonPadding: EdgeInsets.all(16).copyWith(bottom: 5),
+            buttonPadding: const EdgeInsets.all(16).copyWith(bottom: 5),
             children: [
               ElevatedButton.icon(
                   icon: Icon(Icons.edit),
                   onPressed: (){
                     showDialog(context: context, builder: (BuildContext context){
                       AnnouncementDialog dialog = AnnouncementDialog();
-                      return dialog!.buildDialog(context, announcement, false);
+                      return dialog.buildDialog(context, announcement, false);
                     }
                     ).then((value) => reloadAnnouncements());
                   }, label: Text('Edit'),

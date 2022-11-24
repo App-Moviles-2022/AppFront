@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
-import 'package:syncfusion_flutter_maps/maps.dart';
 
 import '../../gestion-announcements/models/announcement.dart';
 
@@ -146,11 +145,9 @@ class AnnouncementDialog{
             Container(
               padding: EdgeInsets.only(top: 10),
               height: 300,
-              child: OpenStreetMapSearchAndPick(center: LatLong(latitude??0,longitude??0), onPicked: (pickedData){
+              child: OpenStreetMapSearchAndPick(center: LatLong(latitude,longitude), onPicked: (pickedData){
                 latitude = pickedData.latLong.latitude;
                 longitude = pickedData.latLong.longitude;
-                print(pickedData.latLong.latitude);
-                print(pickedData.latLong.longitude);
               },),
             ),
 
@@ -161,7 +158,7 @@ class AnnouncementDialog{
               else{
                 updateAnnouncement(announcement.id);
               }
-              Navigator.pop(context);
+              Navigator.pop(context, true);
               }, child: Text("Save"))
 
           ],

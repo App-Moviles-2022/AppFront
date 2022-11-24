@@ -72,7 +72,9 @@ class _MyPetsState extends State<MyPets>{
   }
 
   Future<Null> refresh() async{
-    getMyPetsRequest();
+    setState(() async {
+      await getMyPetsRequest();
+    });
   }
 
 
@@ -108,7 +110,8 @@ class _MyPetsState extends State<MyPets>{
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PetDetails(pets[i])));
                   },
                   trailing: IconButton(icon: Icon(Icons.edit, color: Colors.indigo,), onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AddPet(pets[i]))).then((value) => {refresh()});
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AddPet(pets[i]))).then(
+                            (value) => {refresh()});
                     },),
 
                 ),)
